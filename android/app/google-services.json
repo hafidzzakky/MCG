@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "857620405759",
+    "firebase_url": "https://mcgp-eec82.firebaseio.com",
+    "project_id": "mcgp-eec82",
+    "storage_bucket": "mcgp-eec82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857620405759:android:a9ff32f1af8bdacb",
+        "android_client_info": {
+          "package_name": "com.mcg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "857620405759-rn1g3eruof362o2u38qvpb5lhtm5a8b6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByoBiGru6efiUDNQ0g6ZL5s4JHI2JGbHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "857620405759-rn1g3eruof362o2u38qvpb5lhtm5a8b6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
