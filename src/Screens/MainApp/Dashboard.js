@@ -63,11 +63,11 @@ export class Dashboard extends Component {
                         <View style={{height: 4, width: '100%'}}/>
                         <View style={{flexDirection: 'row'}}>
                             <TouchableOpacity style={styles.eachMenuContainer}>
-                                <Text>Menu 1</Text>
+                                <Text>Menu 3</Text>
                             </TouchableOpacity>
                             <View style={{height: '100%', width: 4}}/>
                             <TouchableOpacity style={styles.eachMenuContainer}>
-                                <Text>menu 2</Text>
+                                <Text>menu 4</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{height: 4, width: '100%'}}/>
