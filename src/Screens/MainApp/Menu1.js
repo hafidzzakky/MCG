@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import {
     HeaderSub
 } from '../../Components';
 import { Content, Form, Item, Input, Label } from 'native-base';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import bgImg from '../../Assets/image/bgImg.jpg'
 export class Menu1 extends Component {
     render() {
         const { navigation } = this.props;
@@ -26,8 +27,13 @@ export class Menu1 extends Component {
                 <TouchableOpacity style={{position: 'absolute',width: '100%', bottom: 0, flex: 1, padding: 10, backgroundColor: '#42436A'}}>
                     <Text style={{color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>Kirim</Text>
                 </TouchableOpacity> */}
+                <ImageBackground source={bgImg} style={{
+                        flex: 1,
+                        resizeMode: 'cover'
+                }}>
+                <View style={{backgroundColor: 'rgba(255, 255, 255,0.9)', flex: 1}}>
                 <Content>
-                    <TouchableOpacity style={{borderRadius: 0, padding: 10, borderBottomColor: '#dbdbdb', borderBottomWidth: 1, marginTop: 10}}>
+                    {/* <TouchableOpacity style={{borderRadius: 0, padding: 10, borderBottomColor: '#dbdbdb', borderBottomWidth: 1, marginTop: 10, backgroundColor: '#fff'}}>
                         <Text style={{fontSize: 15, fontWeight: 'bold'}}>Incident Title</Text>
                         <Text style={{fontSize: 13, }}>Resp Depart</Text>
                         <Text style={{fontSize: 13, }}>Resp Sect</Text>
@@ -38,15 +44,14 @@ export class Menu1 extends Component {
                                 <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>Status</Text>
                             </View>
                         </View>
-                        {/* <View style={{position: 'absolute',borderRadius:20, bottom: 10, right: 10, backgroundColor: '#e74c3c', padding: 5, width: 60}}>
-                            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>Status</Text>
-                        </View> */}
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     
                 </Content>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('addReportIncident', {page: 'Add New Incident'})} style={{position: 'absolute', bottom: 20,right: 10, padding: 10, backgroundColor: '#99552B', height: 60, width: 60, borderRadius: 60/2, justifyContent: 'center', alignItems: 'center'}}>
                     <Icons name='plus' size={35} color='#fff' />
                 </TouchableOpacity>
+                </View>
+                </ImageBackground>
             </HeaderSub>
         )
     }

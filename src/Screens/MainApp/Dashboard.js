@@ -10,7 +10,13 @@ import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import GridView , {SuperGridSectionList} from 'react-native-super-grid';
 import LinearGradient from 'react-native-linear-gradient';
 import user from '../../Assets/image/user.png';
-import BgImg from '../../Assets/image/bgImg.jpg';
+import bgImg from '../../Assets/image/bgImg.jpg';
+import logo from '../../Assets/image/logo.png';
+import icon_hazard from '../../Assets/image/icon_hazard.png';
+import icon_insident from '../../Assets/image/icon_insident.png';
+import icon_inspection from '../../Assets/image/icon_inspection.png';
+import icon_okkan from '../../Assets/image/icon_okkan.png';
+import icon_tahan from '../../Assets/image/icon_tahan.png';
 export class Dashboard extends Component {
     render() {
         const items = [
@@ -20,9 +26,24 @@ export class Dashboard extends Component {
             { name: 'TAHAN Report', icon: 'magnify', routing: 'TahanReport' },
         ];      
         return (
-            <HeaderApp navigation={this.props.navigation} title="Safety System">
                 <Container>
+                    <ImageBackground source={bgImg} style={{
+                        flex: 1,
+                        resizeMode: 'cover'
+                    }}>
+                    <View style={{backgroundColor: 'rgba(255, 255, 255,0.9)', flex: 1}}>
                     <Content>
+                    <TouchableOpacity 
+                    onPress={() => this.props.navigation.navigate('LoginScreen')}
+                    style={{backgroundColor:'#B3A369', padding: 5,width: 50, height: 50, borderRadius: 50, justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 10, right: 10}}>
+                        <Icons name='exit-to-app' style={{marginTop: 0}} size={20} color='#fff' />
+                        <Text style={{fontSize: 10, color: '#fff'}}>Logout</Text>
+                    </TouchableOpacity>
+                    <View>
+                        <Image source={logo} style={{width: 230, height: 90, alignSelf: 'center', marginTop: 50, marginBottom: 10}}/>
+                        <View style={{width: 345,alignSelf: 'center', height: 2, backgroundColor: '#63666A'}}/>
+                        <Text style={{fontSize: 18, fontWeight: 'bold', alignSelf: 'center', marginTop: 10}}>Safety System</Text>
+                    </View>
                     {/* Card Info User */}
                     <View
                         style={[styles.gradient, {padding: 10, paddingLeft: 20, paddingRight: 20}]}>
@@ -52,33 +73,49 @@ export class Dashboard extends Component {
                     </View> */}
                     <View style={styles.containerMenu}>
                         <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity style={styles.eachMenuContainer}>
-                                <Text>Menu 1</Text>
+                            <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('menu1Screen', {page: 'Incident Notification'})}
+                            style={styles.eachMenuContainer}>
+                                <Image source={icon_insident} style={{width: 60, height: 60, alignSelf: 'center'}}/>
+                                <Text>Incident Notification</Text>
                             </TouchableOpacity>
                             <View style={{height: '100%', width: 4}}/>
-                            <TouchableOpacity style={styles.eachMenuContainer}>
-                                <Text>menu 2</Text>
+                            <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('Inspection', {page: 'Inspection'})}
+                            style={styles.eachMenuContainer}>
+                                <Image source={icon_inspection} style={{width: 60, height: 60, alignSelf: 'center'}}/>
+                                <Text>Inspection</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{height: 4, width: '100%'}}/>
                         <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity style={styles.eachMenuContainer}>
-                                <Text>Menu 3</Text>
+                            <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('OKKAN', {page: 'OK-KAN'})}
+                            style={styles.eachMenuContainer}>
+                                <Image source={icon_okkan} style={{width: 60, height: 60, alignSelf: 'center'}}/>
+                                <Text>OK-KAN</Text>
                             </TouchableOpacity>
                             <View style={{height: '100%', width: 4}}/>
-                            <TouchableOpacity style={styles.eachMenuContainer}>
-                                <Text>menu 4</Text>
+                            <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('HazardReport', {page: 'Hazard Report'})}
+                            style={styles.eachMenuContainer}>
+                                <Image source={icon_hazard} style={{width: 60, height: 60, alignSelf: 'center'}}/>
+                                <Text>Hazard Report</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{height: 4, width: '100%'}}/>
-                        <TouchableOpacity style={[styles.eachMenuContainer, {flex: 1, width: '100%'}]}>
-                            <Text>menu 5</Text>
+                        <TouchableOpacity 
+                        onPress={() => this.props.navigation.navigate('TahanReport', {page: 'Tahan Report'})}
+                        style={[styles.eachMenuContainer, {flex: 1, width: '100%'}]}>
+                            <Image source={icon_tahan} style={{width: 60, height: 60, alignSelf: 'center'}}/>
+                            <Text>Tahan Report</Text>
                         </TouchableOpacity>
                     </View>
                     {/* <View style={{height: 5, backgroundColor:'rgba(191,191,191, 0.2)', marginTop: 20}}/> */}
                     </Content>
+                    </View>
+                    </ImageBackground>
                 </Container>
-            </HeaderApp>
         )
     }
 }
@@ -98,7 +135,9 @@ const styles = {
         justifyContent: 'center',
         height: 100, 
         marginBottom: 10,
-        marginTop: 20
+        marginTop: 20,
+        width: 445,
+        alignSelf: 'center'
     },
     menuTitle:{
         fontSize: 12, 
@@ -146,14 +185,15 @@ const styles = {
           justifyContent:'center',
           alignItems: 'center',
         //   backgroundColor: 'red',
-          width: 505,
+          width: 445,
           alignSelf: 'center',
           marginTop: 10,
           marginBottom: 10
       },
       eachMenuContainer:{
         backgroundColor: '#fff',
-        width: 250, 
+        width: 220, 
+        height: 130,
         justifyContent: 'center', 
         alignItems: 'center',
         padding: 10,

@@ -261,41 +261,6 @@ export class AddNewOKKAN extends Component {
         );
     }
 
-    renderTable = () => {
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <View style={{flexDirection: 'row', backgroundColor: '#B3A369', borderColor: '#63666A', borderWidth: 2}}>
-                <View style={styles.headerTable}>
-                    <Text style={styles.fontStyle}>Assign To</Text>
-                </View>
-                <View style={{height: '100%', width: 2, backgroundColor:'#63666A'}} />
-                <View style={styles.headerTable}>
-                    <Text style={styles.fontStyle}>Resp. Department</Text>
-                </View> 
-                <View style={{height: '100%', width: 2, backgroundColor:'#63666A'}} />
-                <View style={styles.headerTable}>
-                    <Text style={styles.fontStyle}>Priority</Text>
-                </View> 
-                <View style={{height: '100%', width: 2, backgroundColor:'#63666A'}} />
-                <View style={styles.headerTable}>
-                    <Text style={styles.fontStyle}>Due Date</Text>
-                </View> 
-                <View style={{height: '100%', width: 2, backgroundColor:'#63666A'}} />
-                <View style={styles.headerTable}>
-                    <Text style={styles.fontStyle}>Action</Text>
-                </View>
-            </View>
-            {this.state.CorrectiveAction.length == 0 ?
-                <View style={{flexDirection: 'row', backgroundColor: '#fff', borderColor: '#63666A', borderWidth: 1, flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center', padding: 20}}>
-                    <Text>tidak ada data</Text>
-                </View>
-                :
-                this.state.CorrectiveAction.map((datum) => { 
-                    return this.renderRow(datum);
-                })
-            }
-        </View>
-    }
-
     render() {
         const { navigation } = this.props;
         const page = navigation.getParam('page', 'Page not found');
