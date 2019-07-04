@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity, ImageBackground } from 'react-native'
 import {
     Content,
     Icon
@@ -12,6 +12,7 @@ import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { SwipeListView } from 'react-native-swipe-list-view';
+import bgImg from '../../../Assets/image/bgImg.jpg'
 import moment from 'moment';
 export class AddReportInspection extends Component {
     constructor(props){
@@ -57,6 +58,48 @@ export class AddReportInspection extends Component {
             chosenDateInspection: chosenDate,
             datePickerInspection: false
         })
+    }
+
+    editObserver = async (data) => {        
+        try {
+            await AsyncStorage.setItem('dataEditObserver', JSON.stringify(data));
+            await AsyncStorage.setItem('isEdit', JSON.stringify(true));
+            this.props.navigation.navigate('AddObserver', {
+                onGoBack: () => this.getDataEditObserver(),
+                page: 'Edit Observer'
+            })
+          } catch (error) {
+            console.log('error : ', error);
+        }
+    }
+
+    findWithAttr(array, attr, value) {
+        for(var i = 0; i < array.length; i += 1) {
+            if(array[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    getDataEditObserver = async () => {
+        try {
+            const value = await AsyncStorage.getItem('dataEditObserver')
+            if(value !== null) {
+                const editdata = JSON.parse(value);
+                const data = [...this.state.Observer];
+                const getIndex = this.findWithAttr(data, 'id', editdata.id);
+                console.log('edit data : ', editdata, ' -', data, ' -', getIndex)
+                if(getIndex !== -1){
+                    data[getIndex] = editdata;
+                    this.setState({
+                        Observer: data
+                    })
+                }
+            }
+          } catch(e) {
+            console.log(e)
+        }
     }
 
     removeItem(id) {
@@ -106,14 +149,17 @@ export class AddReportInspection extends Component {
                     <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Observer</Text>
                     </View>
-                    <View style={{padding: 10, marginBottom: 30}}>
-                        <TouchableOpacity 
-                            onPress={() => this.props.navigation.navigate('AddObserver', {
-                                onGoBack: () => this.getDataObserver(),
-                            })}
-                            style={{padding: 10, borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#B3A369'}}>
-                                <Text style={{fontWeight: 'bold', fontSize: 15, color: '#fff'}}>Add Observer</Text>
-                        </TouchableOpacity>
+                    <View style={{marginBottom: 50}}>
+                        <View style={{padding: 10}}>
+                            <TouchableOpacity 
+                                onPress={() => this.props.navigation.navigate('AddObserver', {
+                                    onGoBack: () => this.getDataObserver(),
+                                    page: 'Add Observer'
+                                })}
+                                style={{padding: 10, borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#B3A369'}}>
+                                    <Text style={{fontWeight: 'bold', fontSize: 15, color: '#fff'}}>Add Observer</Text>
+                            </TouchableOpacity>
+                        </View>
                         {console.log('data state observer : ', this.state.Observer)}
                         {this.state.Observer.length == 0 ? false : 
                             <SwipeListView
@@ -129,12 +175,17 @@ export class AddReportInspection extends Component {
                                 )}
                                 renderHiddenItem={ (data, rowMap) => (
                                     <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
-                                        <TouchableOpacity onPress={() => console.log('hidden item : ', data.item.Observer)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 75}}>
-                                            <Icon active style={{color: '#fff'}} name="trash" />
-                                        </TouchableOpacity>
+                                        <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
+                                            <TouchableOpacity onPress={() => this.editObserver(data.item)} style={{backgroundColor: '#B3A369', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                                <Icons name='pencil' style={{marginTop: 0}} size={20} color='#fff' />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => this.removeItem(data.item.id)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                                <Icon active style={{color: '#fff', fontSize: 20}} name="trash" />
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 )}
-                                rightOpenValue={-75}
+                                rightOpenValue={-100}
                             />
                         }
                     </View>
@@ -154,6 +205,10 @@ export class AddReportInspection extends Component {
             </HeaderSub>
         )
     }
+}
+
+const styles = {
+    
 }
 
 export default AddReportInspection

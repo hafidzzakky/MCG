@@ -2,12 +2,13 @@ import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import {Animated, Easing} from 'react-native';
 import TabNavigator from '../Navigation/TabNavigator';
 import Login from '../Screens/Auth/Login';
-import Menu1 from '../Screens/MainApp/Menu1';
 import Intro from '../Screens/MainApp/Intro';
+import Dashboard from '../Screens/MainApp/Dashboard';
+//incident
 import addReportIncident from '../Screens/MainApp/IncidentNotification/AddReportIncident';
-import ReportedBy from '../Screens/MainApp/IncidentNotification/ReportedBy';
 import AddAdditionalImmediateActionRequired from '../Screens/MainApp/IncidentNotification/AddAdditionalImmediateActionRequired';
 import AddImmediateAction from '../Screens/MainApp/IncidentNotification/AddImmediateAction';
+import IncidentNotification from '../Screens/MainApp/IncidentNotification/IncidentNotification';
 //inspection
 import Inspection from '../Screens/MainApp/Inspection/Inspection';
 import AddReportInspection from '../Screens/MainApp/Inspection/AddReportInspection';
@@ -24,10 +25,12 @@ import OKKAN from '../Screens/MainApp/OKKAN/OKKAN';
 import AddNewOKKAN from '../Screens/MainApp/OKKAN/AddNewOKKAN';
 //reusable
 import Location from '../Screens/MainApp/Reusable/Location';
+import ReportedBy from '../Screens/MainApp/IncidentNotification/ReportedBy';
 export default MainApp = createStackNavigator({
     LoginScreen: { screen: Login, navigationOptions: ({ navigation }) => { } },
-    MainScreen: { screen: TabNavigator, navigationOptions: ({ navigation }) => { } },
-    menu1Screen: { screen: Menu1, navigationOptions: ({ navigation }) => { } },
+    // MainScreen: { screen: TabNavigator, navigationOptions: ({ navigation }) => { } },
+    Dashboard: { screen: Dashboard, navigationOptions: ({ navigation }) => { } },
+    IncidentNotification: { screen: IncidentNotification, navigationOptions: ({ navigation }) => { } },
     IntroScreen: { screen: Intro, navigationOptions: ({ navigation }) => { } },
     //Incident Notification 
     addReportIncident: { screen: addReportIncident, navigationOptions: ({ navigation }) => { } },
@@ -57,7 +60,7 @@ export default MainApp = createStackNavigator({
     },
     mode: 'card',
     navigationOptions: params => ({
-        gesturesEnabled: true,
+        gesturesEnabled: false,
         gesturesDirection: 'inverted',
     }),
     transitionConfig: () => ({

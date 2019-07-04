@@ -36,6 +36,15 @@ export class AddTahanReport extends Component {
         };
     }
 
+    async componentDidMount(){
+        try{
+            await AsyncStorage.removeItem('isEdit');
+            return true;
+        }catch(exception){
+            return false;
+        }
+    }
+
     getDataReportedBy = async () => {
         try {
           const value = await AsyncStorage.getItem('dataReportedBy')
@@ -67,6 +76,7 @@ export class AddTahanReport extends Component {
 
     getDataCorrectiveAction = async () => {
         try {
+            await AsyncStorage.removeItem('isEdit');
             const value = await AsyncStorage.getItem('dataCorrectiveAction')
             if(value !== null) {
                 console.log('value : ', value)
@@ -154,6 +164,55 @@ export class AddTahanReport extends Component {
             chosenDateTahan: chosenDate,
             datePickerTahan: false
         })
+    }
+
+    removeItem(id) {
+        let data = this.state.CorrectiveAction
+        data = data.filter((item) => item.id !== id)
+        console.log('id item : ', id)
+        console.log('remove item : ', data)
+        this.setState({ CorrectiveAction: data })
+    }
+
+    editData = async (data) => {
+        try {
+            await AsyncStorage.setItem('dataEditCorrectiveAction', JSON.stringify(data));
+            await AsyncStorage.setItem('isEdit', JSON.stringify(true));
+            this.props.navigation.navigate('AddCorrectionAction', {
+                onGoBack: () => this.getDataEdit(),
+                page: 'Edit Corrective Action'
+            })
+          } catch (error) {
+            console.log('error : ', error);
+        }
+    }
+
+    findWithAttr(array, attr, value) {
+        for(var i = 0; i < array.length; i += 1) {
+            if(array[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    getDataEdit = async () => {
+        try {
+            const value = await AsyncStorage.getItem('dataEditCorrectiveAction')
+            if(value !== null) {
+                const editdata = JSON.parse(value);
+                const data = [...this.state.CorrectiveAction];
+                const getIndex = this.findWithAttr(data, 'id', editdata.id);
+                if(getIndex !== -1){
+                    data[getIndex] = editdata;
+                    this.setState({
+                        CorrectiveAction: data
+                    })
+                }
+            }
+          } catch(e) {
+            console.log(e)
+        }
     }
 
     render() {
@@ -272,15 +331,17 @@ export class AddTahanReport extends Component {
                     <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Correction Action</Text>
                     </View>
-                    <View style={{padding: 10, marginBottom: 30}}>
-                        <TouchableOpacity 
-                            onPress={() => this.props.navigation.navigate('AddCorrectionAction', {
-                                onGoBack: () => this.getDataCorrectiveAction(),
-                                page: 'Add Corrective Action'
-                            })}
-                            style={{padding: 10, borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#B3A369', marginBottom: 10}}>
-                            <Text style={{fontWeight: 'bold', fontSize: 15, color: '#fff'}}>Add Correction Action</Text>
-                        </TouchableOpacity>
+                    <View style={{backgroundColor: '#fff', flex: 1}}>
+                        <View style={{padding: 10}}>
+                            <TouchableOpacity 
+                                onPress={() => this.props.navigation.navigate('AddCorrectionAction', {
+                                    onGoBack: () => this.getDataCorrectiveAction(),
+                                    page: 'Add Corrective Action'
+                                })}
+                                style={{padding: 10, borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#B3A369', marginBottom: 10}}>
+                                <Text style={{fontWeight: 'bold', fontSize: 15, color: '#fff'}}>Add Correction Action</Text>
+                            </TouchableOpacity>
+                        </View>
                         {this.state.CorrectiveAction.length == 0 ? false : 
                             <SwipeListView
                                 useFlatList
@@ -304,15 +365,19 @@ export class AddTahanReport extends Component {
                                 )}
                                 renderHiddenItem={ (data, rowMap) => (
                                     <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
-                                        <TouchableOpacity onPress={() => console.log('hidden item : ', data.item.AssignTo)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 75}}>
-                                            <Icon active style={{color: '#fff'}} name="trash" />
+                                        <TouchableOpacity onPress={() => this.editData(data.item)} style={{backgroundColor: '#B3A369', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                            <Icons name='pencil' style={{marginTop: 0}} size={20} color='#fff' />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => this.removeItem(data.item.id)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                            <Icon active style={{color: '#fff', fontSize: 20}} name="trash" />
                                         </TouchableOpacity>
                                     </View>
                                 )}
-                                rightOpenValue={-75}
+                                rightOpenValue={-100}
                             />
                         }
                     </View>
+                    <View style={{marginBottom: 50}}/> 
                 </Content>
                 {/* datepicker Incident Informataion */}
                 <DateTimePicker

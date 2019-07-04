@@ -104,10 +104,93 @@ export class AddReportIncident extends Component {
         console.log('reported : ', this.state.ReportedBy);
     }
 
-    removeItem(id) {
+    //immediate action
+    removeItemImmediateAction(id) {
+        let data = this.state.DataImmediateAction
+        data = data.filter((item) => item.id !== id)
+        this.setState({ DataImmediateAction: data })
+    }
+
+    editDataImmediateAction = async (data) => {        
+        try {
+            await AsyncStorage.setItem('dataEditImmediateAction', JSON.stringify(data));
+            await AsyncStorage.setItem('isEdit', JSON.stringify(true));
+            this.props.navigation.navigate('AddImmediateAction', {
+                onGoBack: () => this.getDataEditImmediateAction(),
+                page: 'Edit Immediate Action Required'
+            })
+          } catch (error) {
+            console.log('error : ', error);
+        }
+    }
+
+    getDataEditImmediateAction = async () => {
+        try {
+            const value = await AsyncStorage.getItem('dataEditImmediateAction')
+            if(value !== null) {
+                const editdata = JSON.parse(value);
+                const data = [...this.state.DataImmediateAction];
+                const getIndex = this.findWithAttr(data, 'id', editdata.id);
+                console.log('edit data : ', editdata, ' -', data, ' -', getIndex)
+                if(getIndex !== -1){
+                    data[getIndex] = editdata;
+                    this.setState({
+                        DataImmediateAction: data
+                    })
+                }
+            }
+          } catch(e) {
+            console.log(e)
+        }
+    }
+
+    // additional 
+    removeItemAdditional(id) {
         let data = this.state.DataAdditionalImmediateAction
         data = data.filter((item) => item.id !== id)
         this.setState({ DataAdditionalImmediateAction: data })
+    }
+
+    editDataAdditional = async (data) => {        
+        try {
+            await AsyncStorage.setItem('dataEditAdditionalAction', JSON.stringify(data));
+            await AsyncStorage.setItem('isEdit', JSON.stringify(true));
+            this.props.navigation.navigate('AddAdditionalImmediateActionRequired', {
+                onGoBack: () => this.getDataEdit(),
+                page: 'Edit Additional Immediate Action Required'
+            })
+          } catch (error) {
+            console.log('error : ', error);
+        }
+    }
+
+    findWithAttr(array, attr, value) {
+        for(var i = 0; i < array.length; i += 1) {
+            if(array[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    getDataEdit = async () => {
+        try {
+            const value = await AsyncStorage.getItem('dataEditAdditionalAction')
+            if(value !== null) {
+                const editdata = JSON.parse(value);
+                const data = [...this.state.DataAdditionalImmediateAction];
+                const getIndex = this.findWithAttr(data, 'id', editdata.id);
+                console.log('edit data : ', editdata, ' -', data, ' -', getIndex)
+                if(getIndex !== -1){
+                    data[getIndex] = editdata;
+                    this.setState({
+                        DataAdditionalImmediateAction: data
+                    })
+                }
+            }
+          } catch(e) {
+            console.log(e)
+        }
     }
 
     // modal date picker
@@ -272,10 +355,11 @@ export class AddReportIncident extends Component {
                 height: 720,
             },
         ];
+
         return (
             <HeaderSub title={page} navigation={this.props.navigation}>
                 <Content>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Incident Information</Text>
                     </View>
                     <View style={{padding: 10, paddingTop: 0}}>
@@ -309,7 +393,7 @@ export class AddReportIncident extends Component {
                             data={data}
                         />
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Incident Title</Text>
                     </View>
                     <View style={{padding: 10, paddingTop: 0}}>
@@ -320,7 +404,7 @@ export class AddReportIncident extends Component {
                             onChangeText={ (phone) => this.setState({ phone : phone }) }
                         />
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Incident Type</Text>
                     </View>
                     <View style={{padding: 10, paddingTop: 0}}>
@@ -477,7 +561,7 @@ export class AddReportIncident extends Component {
                             }}
                         />
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1',alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+                    <View style={[styles.containerHeaderItem, {alignItems: 'center', flexDirection: 'row'}]}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
                             <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Risk Level</Text>
                             <TouchableOpacity>
@@ -538,7 +622,7 @@ export class AddReportIncident extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>SPI (Serious Petential Incident) / Significant Incident</Text>
                     </View>
                     <View style={{padding: 10, paddingTop: 0}}>
@@ -570,7 +654,7 @@ export class AddReportIncident extends Component {
                             </Right>
                         </ListItem>
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Statutory Report Required</Text>
                     </View>
                     <View style={{padding: 10, paddingTop: 0}}>
@@ -602,7 +686,7 @@ export class AddReportIncident extends Component {
                             </Right>
                         </ListItem>
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Location Of Incident</Text>
                     </View>
                     <View style={{padding: 10, paddingTop: 0}}>
@@ -611,7 +695,7 @@ export class AddReportIncident extends Component {
                             data={data}
                         />
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Responsible Departement</Text>
                     </View>
                     <View style={{padding: 10, paddingTop: 0}}>
@@ -620,7 +704,7 @@ export class AddReportIncident extends Component {
                             data={data}
                         />
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Responsible Section</Text>
                     </View>
                     <View style={{padding: 10, paddingTop: 0}}>
@@ -629,7 +713,7 @@ export class AddReportIncident extends Component {
                             data={data}
                         />
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Incident Upload</Text>
                     </View>
                     <View style={{padding: 10, paddingTop: 10, flexDirection: 'row', justifyContent: 'space-around'}}>
@@ -672,64 +756,71 @@ export class AddReportIncident extends Component {
                     </View>
                     {this.state.ButtonVisible ?
                     <View style={{padding: 10}}>
-                        <TouchableOpacity onPress={() => this.viewModal()} style={{backgroundColor: '#42436A', padding: 10, justifyContent: 'center', alignItems: 'center', borderRadius: 5}}>
+                        <TouchableOpacity onPress={() => this.viewModal()} style={{backgroundColor: '#B3A369', padding: 10, justifyContent: 'center', alignItems: 'center', borderRadius: 5}}>
                             <Text style={{fontSize: 12, color: '#fff', fontWeight: 'bold'}}>View Image</Text>
                         </TouchableOpacity>
                     </View>
                     : 
                     false}
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Immediate Action</Text>
                     </View>
-                    <View style={{padding: 10}}>
-                        <View>
+                    <View>
+                        <View style={{padding: 10}}>
                             <TouchableOpacity 
                             onPress={() => this.props.navigation.navigate('AddImmediateAction', {
                                 onGoBack: () => this.getDataImmediateAction(),
+                                page: 'Add Immediate Action'
                             })}
                             style={{padding: 10, borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#B3A369'}}>
                                 <Text style={{fontWeight: 'bold', fontSize: 15, color: '#fff'}}>Add Immediate Action</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{marginTop: 10}}>
+                        <View>
                             {this.state.DataImmediateAction.length == 0 ? false : 
                                 <SwipeListView
                                     useFlatList
                                     data={this.state.DataImmediateAction}
                                     renderItem={ (data, rowMap) => (
-                                        <View key={data.item.ActionTakenBy+'-'+data.index} style={{borderRadius: 0, padding: 10, borderBottomColor: '#dbdbdb', borderBottomWidth: 1, marginTop: 0, backgroundColor: '#fff'}}>
+                                        <View key={data.item.ActionTakenBy.id+'-'+data.index} style={{borderRadius: 0, padding: 10, borderBottomColor: '#dbdbdb', borderBottomWidth: 1, marginTop: 0, backgroundColor: '#fff'}}>
                                             {console.log('asd', data)}
-                                            <Text style={{fontSize: 15, fontWeight: 'bold', textAlign: 'justify'}}>{data.item.ActionTakenBy}</Text>
+                                            <Text style={{fontSize: 15, fontWeight: 'bold', textAlign: 'justify'}}>{data.item.ActionTakenBy.nama}</Text>
                                             <Text style={{fontSize: 13, textAlign: 'justify'}}>{data.item.ImmediateAction}</Text>
                                             <Text style={{fontSize: 13, textAlign: 'justify'}}>{data.item.Description}</Text>
                                         </View>
                                     )}
                                     renderHiddenItem={ (data, rowMap) => (
-                                        <View key={data.item.ActionTakenBy+'-'+data.index} style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
-                                            <TouchableOpacity onPress={() => console.log('hidden item : ', data.item.ActionTakenBy)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 75}}>
-                                                <Icon active style={{color: '#fff'}} name="trash" />
-                                            </TouchableOpacity>
+                                        <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
+                                            <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
+                                                <TouchableOpacity onPress={() => this.editDataImmediateAction(data.item)} style={{backgroundColor: '#B3A369', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                                    <Icons name='pencil' style={{marginTop: 0}} size={20} color='#fff' />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => this.removeItemImmediateAction(data.item.id)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                                    <Icon active style={{color: '#fff', fontSize: 20}} name="trash" />
+                                                </TouchableOpacity>
+                                            </View>
                                         </View>
                                     )}
-                                    rightOpenValue={-75}
+                                    rightOpenValue={-100}W
                                 />
                             }
                         </View>
                     </View>
-                    <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
+                    <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Immediate Action Required</Text>
                     </View>
-                    <View style={{padding: 10, marginBottom: 50}}>
-                        <View>
+                    <View style={{marginBottom: 50}}>
+                        <View style={{padding: 10, }}>
                             <TouchableOpacity  
                             onPress={() => this.props.navigation.navigate('AddAdditionalImmediateActionRequired', {
                                 onGoBack: () => this.getDataAdditionalImmediateAction(),
+                                page: 'Add Additional Immediate Action Required'
                             })} 
                             style={{padding: 10, borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#B3A369'}}>
                                 <Text style={{fontWeight: 'bold', fontSize: 15, color: '#fff'}}>Add Additional Immediate Action</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{marginTop: 10}}>
+                        <View>
                             {this.state.DataAdditionalImmediateAction.length == 0 ? false : 
                                 <SwipeListView
                                     useFlatList
@@ -741,7 +832,8 @@ export class AddReportIncident extends Component {
                                             borderBottomColor: '#dbdbdb', 
                                             borderBottomWidth: 1, 
                                             flex: 1, backgroundColor: '#fff'}}>
-                                            <Text style={{fontSize: 15, fontWeight: 'bold', textAlign: 'justify'}}>{data.item.AssignTo}</Text>
+
+                                            <Text style={{fontSize: 15, fontWeight: 'bold', textAlign: 'justify'}}>{data.item.AssignTo.nama}</Text>
                                             <Text style={{fontSize: 13, textAlign: 'justify'}}>{data.item.ResponsibleDepartment}</Text>
                                             <View style={{position: 'absolute',borderRadius:20, top: 10, right: 10}}>
                                                 <Text style={{fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>{data.item.chosenDate}</Text>
@@ -753,12 +845,17 @@ export class AddReportIncident extends Component {
                                     )}
                                     renderHiddenItem={ (data, rowMap) => (
                                         <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
-                                            <TouchableOpacity onPress={() => console.log('hidden item : ', data.item.AssignTo)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 75}}>
-                                                <Icon active style={{color: '#fff'}} name="trash" />
-                                            </TouchableOpacity>
+                                            <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
+                                                <TouchableOpacity onPress={() => this.editDataAdditional(data.item)} style={{backgroundColor: '#B3A369', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                                    <Icons name='pencil' style={{marginTop: 0}} size={20} color='#fff' />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => this.removeItemAdditional(data.item.id)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                                    <Icon active style={{color: '#fff', fontSize: 20}} name="trash" />
+                                                </TouchableOpacity>
+                                            </View>
                                         </View>
                                     )}
-                                    rightOpenValue={-75}
+                                    rightOpenValue={-100}
                                 />
                             }
                         </View>
@@ -846,6 +943,11 @@ const styles = {
         fontWeight: 'bold',
         color:'#666666'
     },
-
+    containerHeaderItem:{
+        height: 50, 
+        padding: 10, 
+        backgroundColor: '#ecf0f1', 
+        justifyContent: 'center'
+    }
 }
 export default AddReportIncident

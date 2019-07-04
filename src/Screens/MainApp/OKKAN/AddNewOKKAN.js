@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, ImageBackground } from 'react-native'
+import { Text, View, TouchableOpacity } from 'react-native'
 import {
     Content,
     Form,
@@ -7,7 +7,11 @@ import {
     Item,
     Input,
     Icon,
-    Radio
+    Label,
+    Radio,
+    ListItem,
+    Left,
+    Right
 } from 'native-base';
 import {
     HeaderSub
@@ -18,7 +22,6 @@ import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import moment from 'moment';
-import bgImg from '../../../Assets/image/bgImg.jpg'
 export class AddNewOKKAN extends Component {
     constructor(props){
         super(props);
@@ -45,7 +48,10 @@ export class AddNewOKKAN extends Component {
             BermHeightActivelyMaintained: 3,
             WorkingWithSufficientLight: 3,
             ManeuveringAndLoadingSafely: 3,
-            EquipmentVehicleParked: 3                
+            EquipmentVehicleParked: 3,
+            EquipmentUsedinSafeCondition: 3,
+            PreStartCheckCondictedCorrectly: 3,
+            UseSuitableTools: 3,                
         };
     }
 
@@ -274,824 +280,1120 @@ export class AddNewOKKAN extends Component {
         
         return (
             <HeaderSub title={page} navigation={this.props.navigation}>
-                <ImageBackground source={bgImg} style={{
-                            flex: 1,
-                            resizeMode: 'cover'
-                    }}>
-                    <View style={{backgroundColor: 'rgba(255, 255, 255,0.9)', flex: 1}}>
-                        <Content style={{padding: 10}}>
-                            <View style={styles.cardContainer}>
-                                <View style={styles.titleContainer}>
-                                    <Text style={styles.titleText}>OK-KAN REPORT TYPE</Text>
-                                </View>
-                                <View style={styles.bodyCardContainer}>
-                                    <View style={{flex: 1, marginTop: -20}}>
-                                        <Dropdown
-                                            label='Select OK-KAN Type'
-                                            data={data}
-                                            onChangeText = {(value => console.log(value))}
-                                        />
-                                    </View>
-                                </View>
-                                <View style={styles.grid}>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Department Observed</Text>
-                                        </View>
-                                        <View>
-                                            <Dropdown
-                                                label='Select Department Observed'
-                                                data={data}
-                                            />
-                                        </View>
-                                    </View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Location Observed</Text>
-                                        </View>
-                                        <View>
-                                            <TouchableOpacity 
-                                                onPress={() => this.props.navigation.navigate('Location', {
-                                                    onGoBack: () => this.getDataLocation(),
-                                                    page: 'Location'
-                                                })}
-                                                style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
-                                                {this.state.Location.nama == null ? 
-                                                    <Text style={{fontSize: 16, color: '#939393'}}>Location Observed </Text> :
-                                                    <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.Location.nama}</Text>    
-                                                }
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.grid}>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Description of Activity/task observed</Text>
-                                        </View>
-                                        <View>
-                                            <View style={{padding: 10}}>
-                                                <Form>
-                                                    <Textarea rowSpan={5} bordered placeholder="Edit Here" />
-                                                </Form>
-                                            </View>
-                                        </View>
-                                    </View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>No of People Observed</Text>
-                                        </View>
-                                        <View>
-                                            <View style={{padding: 5, paddingLeft: 0, flex: 1}}>
-                                                <Form>
-                                                    <Item>
-                                                        <Input placeholder="No. of people Observed" />
-                                                    </Item>
-                                                </Form>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.grid}>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Supervisor Name</Text>
-                                        </View>
-                                        <View>
-                                            <TouchableOpacity 
-                                                onPress={() => this.props.navigation.navigate('ReportedBy', {
-                                                    onGoBack: () => this.getDataReportedBy(),
-                                                    page: 'Supervisor Name'
-                                                })}
-                                                style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
-                                                {this.state.Supervisor.nama == null ? 
-                                                    <Text style={{fontSize: 16, color: '#939393'}}>Supervisor Name </Text> :
-                                                    <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.Supervisor.nama}</Text>   
-                                                }
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Section</Text>
-                                        </View>
-                                        <View>
-                                            <Dropdown
-                                                label='Select Section'
-                                                data={data}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.grid}>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Date of Observation</Text>
-                                        </View>
-                                        <View>
-                                            <TouchableOpacity onPress={() => this.showDatePicker()} style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
-                                                {this.state.chosenDateOKKAN == '' ? 
-                                                    <Text style={{fontSize: 16, color: '#939393'}}>Click Here </Text> :
-                                                    <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.chosenDateOKKAN}</Text>   
-                                                }
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Time of Observation</Text>
-                                        </View>
-                                        <View>
-                                            <TouchableOpacity onPress={() => this.showTimePicker()} style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
-                                                {this.state.chosenTimeOKKAN == '' ? 
-                                                    <Text style={{fontSize: 16, color: '#939393'}}>Click Here </Text> :
-                                                    <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.chosenTimeOKKAN}</Text>   
-                                                }
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.grid}>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Observing Department</Text>
-                                        </View>
-                                        <View>
-                                            <Dropdown
-                                                label='Select Observing Department'
-                                                data={data}
-                                            />
-                                        </View>
-                                    </View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Observation Conducted 1</Text>
-                                        </View>
-                                        <View>
-                                            <TouchableOpacity 
-                                                onPress={() => this.props.navigation.navigate('ReportedBy', {
-                                                    onGoBack: () => this.getDataConducted1(),
-                                                    page: 'Observation Conducted 1'
-                                                })}
-                                                style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
-                                                {this.state.ObservationConducted1.nama == null ? 
-                                                    <Text style={{fontSize: 16, color: '#939393'}}>Click Here </Text> :
-                                                    <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.ObservationConducted1.nama}</Text>   
-                                                }
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.grid}>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Observation Conducted 2</Text>
-                                        </View>
-                                        <View>
-                                            <TouchableOpacity 
-                                                onPress={() => this.props.navigation.navigate('ReportedBy', {
-                                                    onGoBack: () => this.getDataConducted2(),
-                                                    page: 'Observation Conducted 2'
-                                                })}
-                                                style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
-                                                {this.state.ObservationConducted2.nama == null ? 
-                                                    <Text style={{fontSize: 16, color: '#939393'}}>Click Here </Text> :
-                                                    <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.ObservationConducted2.nama}</Text>   
-                                                }
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Observation Conducted 3</Text>
-                                        </View>
-                                        <View>
-                                            <TouchableOpacity 
-                                                onPress={() => this.props.navigation.navigate('ReportedBy', {
-                                                    onGoBack: () => this.getDataConducted3(),
-                                                    page: 'Observation Conducted 3'
-                                                })}
-                                                style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
-                                                {this.state.ObservationConducted3.nama == null ? 
-                                                    <Text style={{fontSize: 16, color: '#939393'}}>Click Here </Text> :
-                                                    <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.ObservationConducted3.nama}</Text>   
-                                                }
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.titleContainer}>
-                                    <Text style={styles.titleText}>Other Observer / Contractor</Text>
-                                </View>
-                                <View style={styles.bodyCardContainer}>
-                                    <View style={{padding: 5, paddingLeft: 0, flex: 1, marginTop: -10}}>
-                                        <Form>
-                                            <Item>
-                                                <Input placeholder="Other Observer / Contractor" />
-                                            </Item>
-                                        </Form>
-                                    </View>
-                                </View>
-                                <View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Shift</Text>
-                                        </View>
-                                        <View>
-                                            <Dropdown
-                                                label='Select Shift'
-                                                data={data}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.grid}>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Unsafe Act / Condition</Text>
-                                        </View>
-                                        <View>
-                                            <Form>
-                                                <Textarea rowSpan={5} bordered placeholder="Edit Here" />
-                                            </Form>
-                                        </View>
-                                    </View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Agreed Control / Action To Be Taken</Text>
-                                        </View>
-                                        <View>
-                                            <Form>
-                                                <Textarea rowSpan={5} bordered placeholder="Edit Here" />
-                                            </Form>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={styles.cardContainer}>
-                                <View style={styles.grid}>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Planning Implementation</Text>
-                                        </View>
-                                        {/* Procedure reviewed */}
-                                        <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                <Radio
-                                                    onPress={() => this.setState({ProcedureReviewed: 1})}
-                                                    color={"#B3A369"}
-                                                    selectedColor={"#B3A369"}
-                                                    selected={this.state.ProcedureReviewed == 1}
-                                                />
-                                            </View>
-                                            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                <Radio
-                                                    onPress={() => this.setState({ProcedureReviewed: 2})}
-                                                    color={"#B3A369"}
-                                                    selectedColor={"#B3A369"}
-                                                    selected={this.state.ProcedureReviewed == 2}
-                                                />
-                                            </View>
-                                            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                <Radio
-                                                    onPress={() => this.setState({ProcedureReviewed: 3})}
-                                                    color={"#B3A369"}
-                                                    selectedColor={"#B3A369"}
-                                                    selected={this.state.ProcedureReviewed == 3}
-                                                />
-                                            </View>
-                                            <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                <Text style={{fontWeight: 'bold'}}>JSEA/WI/Procedure reviewed and communicated</Text>
-                                            </View>
-                                        </View>
-                                        {/* Procedure Understood */}
-                                        <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                <Radio
-                                                    onPress={() => this.setState({ProcedureUnderstood: 1})}
-                                                    color={"#B3A369"}
-                                                    selectedColor={"#B3A369"}
-                                                    selected={this.state.ProcedureUnderstood == 1}
-                                                />
-                                            </View>
-                                            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                <Radio
-                                                    onPress={() => this.setState({ProcedureUnderstood: 2})}
-                                                    color={"#B3A369"}
-                                                    selectedColor={"#B3A369"}
-                                                    selected={this.state.ProcedureUnderstood == 2}
-                                                />
-                                            </View>
-                                            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                <Radio
-                                                    onPress={() => this.setState({ProcedureUnderstood: 3})}
-                                                    color={"#B3A369"}
-                                                    selectedColor={"#B3A369"}
-                                                    selected={this.state.ProcedureUnderstood == 3}
-                                                />
-                                            </View>
-                                            <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                <Text style={{fontWeight: 'bold'}}>JSEA/WI/Procedure understood</Text>
-                                            </View>
-                                        </View>
-                                        {/* Procedure Followed */}
-                                        <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                <Radio
-                                                    onPress={() => this.setState({ProcedureFollowed: 1})}
-                                                    color={"#B3A369"}
-                                                    selectedColor={"#B3A369"}
-                                                    selected={this.state.ProcedureFollowed == 1}
-                                                />
-                                            </View>
-                                            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                <Radio
-                                                    onPress={() => this.setState({ProcedureFollowed: 2})}
-                                                    color={"#B3A369"}
-                                                    selectedColor={"#B3A369"}
-                                                    selected={this.state.ProcedureFollowed == 2}
-                                                />
-                                            </View>
-                                            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                <Radio
-                                                    onPress={() => this.setState({ProcedureFollowed: 3})}
-                                                    color={"#B3A369"}
-                                                    selectedColor={"#B3A369"}
-                                                    selected={this.state.ProcedureFollowed == 3}
-                                                />
-                                            </View>
-                                            <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                <Text style={{fontWeight: 'bold'}}>JSEA/WI/Procedure followed</Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Work Environment</Text>
-                                        </View>
-                                        <View>
-                                            {/* Haul road consructed safely */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({HaulRoadConstructedSafely: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.HaulRoadConstructedSafely == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({HaulRoadConstructedSafely: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.HaulRoadConstructedSafely == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({HaulRoadConstructedSafely: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.HaulRoadConstructedSafely == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Haul road consructed safely</Text>
-                                                </View>
-                                            </View>
-                                            {/* Maneuvering and dumping safely */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({ManeuveringAndDumpingSafely: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.ManeuveringAndDumpingSafely == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({ManeuveringAndDumpingSafely: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.ManeuveringAndDumpingSafely == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({ManeuveringAndDumpingSafely: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.ManeuveringAndDumpingSafely == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Maneuvering and dumping safely</Text>
-                                                </View>
-                                            </View>
-                                            {/* Signage obeyed */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({SignageObeyed: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.SignageObeyed == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({SignageObeyed: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.SignageObeyed == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({SignageObeyed: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.SignageObeyed == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Signage obeyed</Text>
-                                                </View>
-                                            </View>
-                                            {/* Unauthorized people cleared */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({UnauthorizedPeopleCleared: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.UnauthorizedPeopleCleared == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({UnauthorizedPeopleCleared: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.UnauthorizedPeopleCleared == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({UnauthorizedPeopleCleared: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.UnauthorizedPeopleCleared == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Unauthorized people cleared</Text>
-                                                </View>
-                                            </View>
-                                            {/* Dust suppresion spray safely applied */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({DustSuppresionSpraySafelyApplied: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.DustSuppresionSpraySafelyApplied == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({DustSuppresionSpraySafelyApplied: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.DustSuppresionSpraySafelyApplied == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({DustSuppresionSpraySafelyApplied: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.DustSuppresionSpraySafelyApplied == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Dust suppresion spray safely applied</Text>
-                                                </View>
-                                            </View>
-                                            {/* Safe vehicle interaction / distance maintained */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({SafeVehicleInteraction: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.SafeVehicleInteraction == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({SafeVehicleInteraction: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.SafeVehicleInteraction == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({SafeVehicleInteraction: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.SafeVehicleInteraction == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Safe vehicle interaction / distance maintained</Text>
-                                                </View>
-                                            </View>
-                                            {/* Berm height actively maintained */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({BermHeightActivelyMaintained: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.BermHeightActivelyMaintained == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({BermHeightActivelyMaintained: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.BermHeightActivelyMaintained == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({BermHeightActivelyMaintained: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.BermHeightActivelyMaintained == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Berm height actively maintained</Text>
-                                                </View>
-                                            </View>
-                                            {/* Working with sufficient light */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({WorkingWithSufficientLight: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.WorkingWithSufficientLight == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({WorkingWithSufficientLight: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.WorkingWithSufficientLight == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({WorkingWithSufficientLight: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.WorkingWithSufficientLight == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Working with sufficient light</Text>
-                                                </View>
-                                            </View>
-                                            {/* Maneuvering and loading safely */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({ManeuveringAndLoadingSafely: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.ManeuveringAndLoadingSafely == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({ManeuveringAndLoadingSafely: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.ManeuveringAndLoadingSafely == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({ManeuveringAndLoadingSafely: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.ManeuveringAndLoadingSafely == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Maneuvering and loading safely</Text>
-                                                </View>
-                                            </View>
-                                            {/* Equipment/vehicle parked at designated area */}
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding:5}}>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Y</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({EquipmentVehicleParked: 1})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.EquipmentVehicleParked == 1}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({EquipmentVehicleParked: 2})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.EquipmentVehicleParked == 2}
-                                                    />
-                                                </View>
-                                                <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>N/A</Text>
-                                                    <Radio
-                                                        onPress={() => this.setState({EquipmentVehicleParked: 3})}
-                                                        color={"#B3A369"}
-                                                        selectedColor={"#B3A369"}
-                                                        selected={this.state.EquipmentVehicleParked == 3}
-                                                    />
-                                                </View>
-                                                <View style={{flex: 1, margin: 5, marginLeft: 20}}>
-                                                    <Text style={{fontWeight: 'bold'}}>Equipment/vehicle parked at designated area</Text>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.grid}>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Tools & Equipment</Text>
-                                        </View>
-                                        <View>
-                                            <Dropdown
-                                                label='Select OK-KAN Type'
-                                                data={data}
-                                            />
-                                        </View>
-                                    </View>
-                                    <View style={styles.titleContainerGrid}>
-                                        <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>People</Text>
-                                        </View>
-                                        <View>
-                                            <Dropdown
-                                                label='Select OK-KAN Type'
-                                                data={data}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={styles.cardContainer}>
-                                <View style={styles.titleContainer}>
-                                    <Text style={styles.titleText}>OK-KAN REPORT TYPE</Text>
-                                </View>
-                                <View style={[styles.bodyCardContainer, {flexDirection: 'column'}]}>
-                                    <TouchableOpacity 
-                                        onPress={() => this.props.navigation.navigate('AddCorrectionAction', {
-                                            onGoBack: () => this.getDataCorrectiveAction(),
-                                            page: 'Add Corrective Action'
-                                        })}
-                                        style={{padding: 10, borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#B3A369', marginBottom: 10}}>
-                                        <Text style={{fontWeight: 'bold', fontSize: 15, color: '#fff'}}>Add Correction Action</Text>
-                                    </TouchableOpacity>
-                                    {/* {this.state.CorrectiveAction.length == 0 ? false : 
-                                        <SwipeListView
-                                            useFlatList
-                                            data={this.state.CorrectiveAction}
-                                            renderItem={ (data, rowMap) => (
-                                                <View style={{
-                                                    borderRadius: 0, 
-                                                    padding: 10, 
-                                                    borderBottomColor: '#dbdbdb', 
-                                                    borderBottomWidth: 1, 
-                                                    flex: 1, backgroundColor: '#fff'}}>
-                                                    <Text style={{fontSize: 15, fontWeight: 'bold', textAlign: 'justify'}}>{data.item.AssignTo.nama}</Text>
-                                                    <Text style={{fontSize: 13, textAlign: 'justify'}}>{data.item.AssignTo.posisi}</Text>
-                                                    <View style={{position: 'absolute',borderRadius:20, top: 10, right: 10}}>
-                                                        <Text style={{fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>{data.item.chosenDateCorrectiveAction}</Text>
-                                                        <View style={{borderRadius:20, backgroundColor: '#e74c3c', padding: 5, width: 60, marginTop: 3, marginLeft: 25}}>
-                                                            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>{data.item.Priority}</Text>
-                                                        </View>
-                                                    </View>
-                                                </View>
-                                            )}
-                                            renderHiddenItem={ (data, rowMap) => (
-                                                <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
-                                                    <TouchableOpacity onPress={() => console.log('hidden item : ', data.item.AssignTo)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 75}}>
-                                                        <Icon active style={{color: '#fff'}} name="trash" />
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-                                            rightOpenValue={-75}
-                                        />
-                                    } */}
-                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                        <View style={{flexDirection: 'row', backgroundColor: '#B3A369', borderColor: '#63666A', borderWidth: 2}}>
-                                            <View style={styles.headerTable}>
-                                                <Text style={styles.fontStyle}>Assign To</Text>
-                                            </View>
-                                            <View style={{height: '100%', width: 2, backgroundColor:'#63666A'}} />
-                                            <View style={styles.headerTable}>
-                                                <Text style={styles.fontStyle}>Resp. Department</Text>
-                                            </View> 
-                                            <View style={{height: '100%', width: 2, backgroundColor:'#63666A'}} />
-                                            <View style={styles.headerTable}>
-                                                <Text style={styles.fontStyle}>Priority</Text>
-                                            </View> 
-                                            <View style={{height: '100%', width: 2, backgroundColor:'#63666A'}} />
-                                            <View style={styles.headerTable}>
-                                                <Text style={styles.fontStyle}>Due Date</Text>
-                                            </View> 
-                                            <View style={{height: '100%', width: 2, backgroundColor:'#63666A'}} />
-                                            <View style={styles.headerTable}>
-                                                <Text style={styles.fontStyle}>Action</Text>
-                                            </View>
-                                        </View>
-                                        {this.state.CorrectiveAction.length == 0 ?
-                                            <View style={{flexDirection: 'row', backgroundColor: '#fff', borderColor: '#63666A', borderWidth: 1, flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center', padding: 20}}>
-                                                <Text>tidak ada data</Text>
-                                            </View>
-                                            :
-                                            this.state.CorrectiveAction.map((item) => { 
-                                                return this.renderRow(item);
-                                            })
-                                        }
-                                    </View>
-                                </View>
-                            </View>
-                        </Content>
-                        {/* datepicker Incident Informataion */}
-                        <DateTimePicker
-                            isVisible={this.state.datePickerOKKAN}
-                            onConfirm={this.handleDatePickedOKKAN}
-                            onCancel={this.hideDatePicker}
-                            mode={'date'}
-                        />
-                        {/* timepicker additional immediate action */}
-                        <DateTimePicker
-                            isVisible={this.state.timePickerOKKAN}
-                            onConfirm={this.handleTimePickedOKKAN}
-                            onCancel={this.hideTimePicker}
-                            mode={'time'}
-                        />
+                <Content>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>OK-KAN Report Type</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <Dropdown
+                        label=' OK-KAN Type'
+                        data={data}
+                    />
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Department Observed</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <Dropdown
+                        label='Department Observed'
+                        data={data}
+                    />
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Location Observed</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <TouchableOpacity 
+                        onPress={() => this.props.navigation.navigate('Location', {
+                            onGoBack: () => this.getDataLocation(),
+                            page: 'Location'
+                        })}
+                        style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
+                        <Text style={{fontSize: 16, color: '#939393'}}>Location Observed</Text>
+                        <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.Location.nama}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Description of Activity/task observed</Text>
+                </View>
+                <View style={[styles.containerForm, {paddingTop: 10}]}>
+                    <Form>
+                        <Textarea rowSpan={5} bordered placeholder="Edit Here" />
+                    </Form>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>No of People Observed</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <Form>
+                        <Item floatingLabel style={{marginLeft: 0}}>
+                        <Label style={{fontSize: 13}}>Phone No.</Label>
+                            <Input />
+                        </Item>
+                    </Form>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Supervisor Name</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <TouchableOpacity 
+                        onPress={() => this.props.navigation.navigate('Location', {
+                            onGoBack: () => this.getDataReportedBy(),
+                            page: 'Supervisor Name'
+                        })}
+                        style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
+                        <Text style={{fontSize: 16, color: '#939393'}}>Supervisor Name</Text>
+                        <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.Supervisor.nama}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Section</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <Dropdown
+                        label='Section'
+                        data={data}
+                    />
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Date of Observation</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <TouchableOpacity onPress={() => this.showDatePicker()} style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
+                        {this.state.chosenDateOKKAN == '' ? 
+                            <Text style={{fontSize: 16, color: '#939393'}}>Click Here </Text> :
+                            <Text style={{fontSize: 16, color: '#939393'}}>{this.state.chosenDateOKKAN}</Text>   
+                        }
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Time of Observation</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <TouchableOpacity onPress={() => this.showTimePicker()} style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
+                        {this.state.chosenTimeOKKAN == '' ? 
+                            <Text style={{fontSize: 16, color: '#939393'}}>Click Here </Text> :
+                            <Text style={{fontSize: 16, color: '#939393'}}>{this.state.chosenTimeOKKAN}</Text>   
+                        }
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Observing Department</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <Dropdown
+                        label='Observing Department'
+                        data={data}
+                    />
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Observation Conducted by 1</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <TouchableOpacity 
+                        onPress={() => this.props.navigation.navigate('Location', {
+                            onGoBack: () => this.getDataConducted1(),
+                            page: 'Observation Conducted 1'
+                        })}
+                        style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
+                        <Text style={{fontSize: 16, color: '#939393'}}>Click Here</Text>
+                        <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.ObservationConducted1.nama}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Observation Conducted by 2</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <TouchableOpacity 
+                        onPress={() => this.props.navigation.navigate('Location', {
+                            onGoBack: () => this.getDataConducted2(),
+                            page: 'Observation Conducted 2'
+                        })}
+                        style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
+                        <Text style={{fontSize: 16, color: '#939393'}}>Click Here</Text>
+                        <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.ObservationConducted2.nama}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Observation Conducted by 3</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <TouchableOpacity 
+                        onPress={() => this.props.navigation.navigate('Location', {
+                            onGoBack: () => this.getDataConducted3(),
+                            page: 'Observation Conducted 3'
+                        })}
+                        style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
+                        <Text style={{fontSize: 16, color: '#939393'}}>Click Here</Text>
+                        <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.ObservationConducted3.nama}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Other Observer / Contractor</Text>
+                </View>
+                <View style={[styles.containerForm, {paddingTop: 10}]}>
+                    <Form>
+                        <Textarea rowSpan={5} bordered placeholder="Other Name" />
+                    </Form>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Shift</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <Dropdown
+                        label='Section'
+                        data={data}
+                    />
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Unsafe Act / Condition</Text>
+                </View>
+                <View style={[styles.containerForm, {paddingTop: 10}]}>
+                    <Form>
+                        <Textarea rowSpan={5} bordered placeholder="Edit Here" />
+                    </Form>
+                </View>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Agreed Control / Action To Be Taken</Text>
+                </View>
+                <View style={[styles.containerForm, {paddingTop: 10}]}>
+                    <Form>
+                        <Textarea rowSpan={5} bordered placeholder="Edit Here" />
+                    </Form>
+                </View>
+                <View style={styles.separator}/>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Planning Implementation</Text>
+                </View>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>JSEA/WI/Procedure reviewed and communicated</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({ProcedureReviewed: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ProcedureReviewed == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({ProcedureReviewed: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ProcedureReviewed == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({ProcedureReviewed: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ProcedureReviewed == 3}
+                            />
+                        </View>
                     </View>
-                </ImageBackground>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>JSEA/WI/Procedure understood</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({ProcedureUnderstood: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ProcedureUnderstood == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({ProcedureUnderstood: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ProcedureUnderstood == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({ProcedureUnderstood: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ProcedureUnderstood == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>JSEA/WI/Procedure followed</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({ProcedureFollowed: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ProcedureFollowed == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({ProcedureFollowed: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ProcedureFollowed == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({ProcedureFollowed: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ProcedureFollowed == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Work Environment</Text>
+                </View>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Haul road consructed safely</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({HaulRoadConstructedSafely: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.HaulRoadConstructedSafely == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({HaulRoadConstructedSafely: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.HaulRoadConstructedSafely == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({HaulRoadConstructedSafely: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.HaulRoadConstructedSafely == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Maneuvering and dumping safely</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({ManeuveringAndDumpingSafely: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ManeuveringAndDumpingSafely == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({ManeuveringAndDumpingSafely: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ManeuveringAndDumpingSafely == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({ManeuveringAndDumpingSafely: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ManeuveringAndDumpingSafely == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Signage obeyed</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({SignageObeyed: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.SignageObeyed == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({SignageObeyed: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.SignageObeyed == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({SignageObeyed: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.SignageObeyed == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Unauthorized people cleared</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({UnauthorizedPeopleCleared: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.UnauthorizedPeopleCleared == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({UnauthorizedPeopleCleared: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.UnauthorizedPeopleCleared == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({UnauthorizedPeopleCleared: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.UnauthorizedPeopleCleared == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Dust suppresion spray safely applied</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({DustSuppresionSpraySafelyApplied: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.DustSuppresionSpraySafelyApplied == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({DustSuppresionSpraySafelyApplied: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.DustSuppresionSpraySafelyApplied == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({DustSuppresionSpraySafelyApplied: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.DustSuppresionSpraySafelyApplied == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Safe vehicle interaction / distance maintained</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({SafeVehicleInteraction: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.SafeVehicleInteraction == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({SafeVehicleInteraction: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.SafeVehicleInteraction == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({SafeVehicleInteraction: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.SafeVehicleInteraction == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Berm height actively maintained</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({BermHeightActivelyMaintained: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.BermHeightActivelyMaintained == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({BermHeightActivelyMaintained: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.BermHeightActivelyMaintained == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({BermHeightActivelyMaintained: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.BermHeightActivelyMaintained == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Working with sufficient light</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({WorkingWithSufficientLight: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.WorkingWithSufficientLight == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({WorkingWithSufficientLight: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.WorkingWithSufficientLight == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({WorkingWithSufficientLight: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.WorkingWithSufficientLight == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Maneuvering and loading safely</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({ManeuveringAndLoadingSafely: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ManeuveringAndLoadingSafely == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({ManeuveringAndLoadingSafely: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ManeuveringAndLoadingSafely == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({ManeuveringAndLoadingSafely: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.ManeuveringAndLoadingSafely == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Equipment/vehicle parked at designated area</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentVehicleParked: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentVehicleParked == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentVehicleParked: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentVehicleParked == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentVehicleParked: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentVehicleParked == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>Tools & Equipment</Text>
+                </View>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Equipment used in safe condition</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Pre Start check condicted correctly</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({PreStartCheckCondictedCorrectly: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.PreStartCheckCondictedCorrectly == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({PreStartCheckCondictedCorrectly: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.PreStartCheckCondictedCorrectly == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({PreStartCheckCondictedCorrectly: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.PreStartCheckCondictedCorrectly == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Use suitable tools/equipment</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({UseSuitableTools: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.UseSuitableTools == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({UseSuitableTools: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.UseSuitableTools == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({UseSuitableTools: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.UseSuitableTools == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>People</Text>
+                </View>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Fit for work and sufficient sleep</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Operating equipment/vehicle with proper license</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Safe position of people (hit/pinched/struck/fall/slip)</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Access/egress to worl area or equipment safely</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Not rushing/speeding on the job</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Drive to condition</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Corrent approach to mobile equipment</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>PPE used correctly</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <ListItem selected={true} style={{marginLeft: 0}}>
+                    <Left style={{marginLeft: 10}}>
+                        <Text style={{fontWeight: 'bold'}}>Safe reversing and parking practice</Text>
+                    </Left>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.containerRadioButton}>
+                            <Text style={{fontWeight: 'bold'}}>Y</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 1})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 1}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 2})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 2}
+                            />
+                        </View>
+                        <View style={[styles.containerRadioButton, {marginLeft: 20}]}>
+                            <Text style={{fontWeight: 'bold'}}>N/A</Text>
+                            <Radio
+                                onPress={() => this.setState({EquipmentUsedinSafeCondition: 3})}
+                                color={"#B3A369"}
+                                selectedColor={"#B3A369"}
+                                selected={this.state.EquipmentUsedinSafeCondition == 3}
+                            />
+                        </View>
+                    </View>
+                </ListItem>
+                <View style={styles.separator}/>
+                <View style={styles.containerHeaderItem}>
+                    <Text style={styles.titleHeaderStyle}>OK-KAN Report Type</Text>
+                </View>
+                <View style={styles.bodyCardContainer}>
+                <View style={{padding: 10}}>
+                    <TouchableOpacity 
+                        onPress={() => this.props.navigation.navigate('AddCorrectionAction', {
+                            onGoBack: () => this.getDataCorrectiveAction(),
+                            page: 'Add Corrective Action'
+                        })}
+                        style={{padding: 10, borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#B3A369', marginBottom: 10}}>
+                        <Text style={{fontWeight: 'bold', fontSize: 15, color: '#fff'}}>Add Correction Action</Text>
+                    </TouchableOpacity>
+                </View>
+                {this.state.CorrectiveAction.length == 0 ? false : 
+                    <SwipeListView
+                        useFlatList
+                        data={this.state.CorrectiveAction}
+                        renderItem={ (data, rowMap) => (
+                            <View style={{
+                                borderRadius: 0, 
+                                padding: 10, 
+                                borderBottomColor: '#dbdbdb', 
+                                borderBottomWidth: 1, 
+                                flex: 1, backgroundColor: '#fff'}}>
+                                <Text style={{fontSize: 15, fontWeight: 'bold', textAlign: 'justify'}}>{data.item.AssignTo.nama}</Text>
+                                <Text style={{fontSize: 13, textAlign: 'justify'}}>{data.item.AssignTo.posisi}</Text>
+                                <View style={{position: 'absolute',borderRadius:20, top: 10, right: 10}}>
+                                    <Text style={{fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>{data.item.chosenDateCorrectiveAction}</Text>
+                                    <View style={{borderRadius:20, backgroundColor: '#e74c3c', padding: 5, width: 60, marginTop: 3, marginLeft: 25}}>
+                                        <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>{data.item.Priority}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        )}
+                        renderHiddenItem={ (data, rowMap) => (
+                            <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
+                                <TouchableOpacity onPress={() => this.editData(data.item)} style={{backgroundColor: '#B3A369', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                    <Icons name='pencil' style={{marginTop: 0}} size={20} color='#fff' />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => this.removeItem(data.item.id)} style={{backgroundColor: '#e74c3c', justifyContent: 'center', alignItems: 'center', width: 50}}>
+                                    <Icon active style={{color: '#fff', fontSize: 20}} name="trash" />
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                        rightOpenValue={-100}
+                    />
+                }
+                </View>
+                <View style={{marginBottom: 50}}/> 
+                </Content>
+                <TouchableOpacity 
+                    style={{position: 'absolute',width: '100%', bottom: 0, flex: 1, padding: 10, backgroundColor: '#99552B'}}>
+                    <Text style={{color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>Kirim</Text>
+                </TouchableOpacity>
+                {/* datepicker Incident Informataion */}
+                <DateTimePicker
+                    isVisible={this.state.datePickerOKKAN}
+                    onConfirm={this.handleDatePickedOKKAN}
+                    onCancel={this.hideDatePicker}
+                    mode={'date'}
+                />
+                {/* timepicker additional immediate action */}
+                <DateTimePicker
+                    isVisible={this.state.timePickerOKKAN}
+                    onConfirm={this.handleTimePickedOKKAN}
+                    onCancel={this.hideTimePicker}
+                    mode={'time'}
+                />
             </HeaderSub>
         )
     }
@@ -1107,8 +1409,6 @@ const styles = {
         backgroundColor: '#99552B',
         padding: 5,
         marginTop: 10,
-        // flex: 1,
-        // height: 30
     },
     titleText: {
         fontSize: 16,
@@ -1117,8 +1417,6 @@ const styles = {
     },
     bodyCardContainer:{
         backgroundColor: '#fff',
-        padding: 10,
-        flexDirection: 'row',
         flex: 1,
     },
     grid:{
@@ -1148,5 +1446,30 @@ const styles = {
     fontBodyStyle:{
         fontSize: 13
     },
+
+    containerHeaderItem:{
+        height: 50, 
+        padding: 10, 
+        backgroundColor: '#ecf0f1', 
+        justifyContent: 'center'
+    },
+    titleHeaderStyle:{
+        fontWeight: 'bold', 
+        fontSize: 15, 
+        color: '#63666A'
+    },
+    containerForm:{
+        padding: 10, 
+        paddingTop: 0
+    },
+    separator:{
+        height: 8, 
+        backgroundColor: '#d4d8d8',
+        marginBottom: 10
+    },
+    containerRadioButton:{
+        justifyContent: 'center', 
+        alignItems: 'center'
+    }
 }
 export default AddNewOKKAN

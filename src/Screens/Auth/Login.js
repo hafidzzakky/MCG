@@ -8,6 +8,10 @@ import {
     Label,
     Content
 } from 'native-base';
+import { connect } from 'react-redux';
+import {
+    AuthLogin
+} from '../../Actions'
 import Logo from '../../Assets/image/logo.png'
 import bgImg from '../../Assets/image/bgImg.jpg'
 export class Login extends Component {
@@ -39,7 +43,11 @@ export class Login extends Component {
                             <Input style={{fontSize: 13}}/>
                             </Item>
                         </Form>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('MainScreen')} style={{padding: 10, backgroundColor: '#99552B', borderRadius: 25, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 20}}>
+                        <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('Dashboard')} 
+                            // onPress={() => this.props.AuthLogin()} 
+                            style={{padding: 10, backgroundColor: '#99552B', borderRadius: 25, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 20
+                        }}>
                             <Text style={{color: '#fff', fontWeight: 'bold', alignSelf:'center', marginTop: 5, marginBottom: 5}}>Login</Text>
                         </TouchableOpacity>
                     </View>
@@ -68,4 +76,12 @@ const styles = {
     }
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+    
+})
+
+const mapDispatchToProps = {
+    AuthLogin
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -75,6 +75,9 @@ export class OKKAN extends Component {
                 }}>
                 <View style={{backgroundColor: 'rgba(255, 255, 255,0.9)', flex: 1}}>
                 <Content style={{padding: 10}}>
+                    <View>
+                        <Text style={styles.titlePage}>Report</Text>
+                    </View>
                     <View style={styles.tableContainer}>
                         <View style={styles.tableHeadContainer}>
                             <View style={styles.headerTable}>
@@ -134,7 +137,9 @@ const styles = {
     },
     fontStyle:{
         fontWeight: 'bold', 
-        color: '#fff'
+        color: '#fff',
+        fontSize: 12,
+        textAlign: 'center'
     },
     bodyTable:{
         flex: 1, 
@@ -199,6 +204,11 @@ const styles = {
         borderWidth: 1,
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5
+    },
+    titlePage:{
+        fontSize: 23,
+        fontWeight: 'bold',
+        marginBottom: 10
     }
 }
 

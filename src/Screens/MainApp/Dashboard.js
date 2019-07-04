@@ -18,13 +18,7 @@ import icon_inspection from '../../Assets/image/icon_inspection.png';
 import icon_okkan from '../../Assets/image/icon_okkan.png';
 import icon_tahan from '../../Assets/image/icon_tahan.png';
 export class Dashboard extends Component {
-    render() {
-        const items = [
-            { name: 'Incident Notification', icon: 'magnify', routing: 'menu1Screen' }, 
-            { name: 'Inspection', icon: 'magnify', routing: 'Inspection' },
-            { name: 'OK-KAN', icon: 'magnify', routing: 'OKKAN' }, { name: 'Hazard Report', icon: 'magnify', routing: 'HazardReport' },
-            { name: 'TAHAN Report', icon: 'magnify', routing: 'TahanReport' },
-        ];      
+    render() {   
         return (
                 <Container>
                     <ImageBackground source={bgImg} style={{
@@ -32,54 +26,40 @@ export class Dashboard extends Component {
                         resizeMode: 'cover'
                     }}>
                     <View style={{backgroundColor: 'rgba(255, 255, 255,0.9)', flex: 1}}>
-                    <Content>
+                    <Content style={{padding: 10}}>
                     <TouchableOpacity 
-                    onPress={() => this.props.navigation.navigate('LoginScreen')}
-                    style={{backgroundColor:'#B3A369', padding: 5,width: 50, height: 50, borderRadius: 50, justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 10, right: 10}}>
+                        onPress={() => this.props.navigation.navigate('LoginScreen')}
+                        style={styles.buttonLogout}>
                         <Icons name='exit-to-app' style={{marginTop: 0}} size={20} color='#fff' />
                         <Text style={{fontSize: 10, color: '#fff'}}>Logout</Text>
                     </TouchableOpacity>
                     <View>
                         <Image source={logo} style={{width: 230, height: 90, alignSelf: 'center', marginTop: 50, marginBottom: 10}}/>
-                        <View style={{width: 345,alignSelf: 'center', height: 2, backgroundColor: '#63666A'}}/>
+                        <View style={{width: '90%',alignSelf: 'center', height: 2, backgroundColor: '#63666A'}}/>
                         <Text style={{fontSize: 18, fontWeight: 'bold', alignSelf: 'center', marginTop: 10}}>Safety System</Text>
                     </View>
                     {/* Card Info User */}
-                    <View
-                        style={[styles.gradient, {padding: 10, paddingLeft: 20, paddingRight: 20}]}>
-                            <View style={styles.cardUserInfo}>
-                                <View style={{justifyContent:'space-between', flexDirection: 'row'}}>
-                                    <View style={{justifyContent: 'center'}}>
-                                        <Text style={{fontWeight: 'bold', fontSize: 15, color: '#99552B'}}>John Doe</Text>
-                                        <Text style={{fontSize: 13}}>johndoe@merdekacoppergold.com</Text>
-                                    </View>
-                                    <Thumbnail source={user} small style={{zIndex: 2, height: 50, width: 50}} />
+                    <View style={{paddingLeft: 15, paddingRight: 15}}>
+                        <View style={styles.cardUserInfo}>
+                            <View style={{justifyContent:'space-between', flexDirection: 'row'}}>
+                                <View style={{justifyContent: 'center'}}>
+                                    <Text style={{fontWeight: 'bold', fontSize: 15, color: '#99552B'}}>John Doe</Text>
+                                    <Text style={{fontSize: 13}}>johndoe@merdekacoppergold.com</Text>
                                 </View>
+                                <Thumbnail source={user} small style={{zIndex: 2, height: 50, width: 50}} />
                             </View>
+                        </View>
                     </View>
                     {/* Menu */}
-                    {/* <View style={{padding:10, height: 280}}>
-                        <GridView
-                            itemDimension={100}
-                            items={items}
-                            style={styles.gridView}
-                                renderItem={({ item }) => (
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate(item.routing, {page: item.name})} style={[styles.itemContainer, { backgroundColor: '#fff' }]}>
-                                    <Icons name={item.icon} style={{marginTop: 0}} size={35} color='#8a4b29' />
-                                    <Text style={styles.itemName}>{item.name}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    </View> */}
                     <View style={styles.containerMenu}>
                         <View style={{flexDirection: 'row'}}>
                             <TouchableOpacity 
-                            onPress={() => this.props.navigation.navigate('menu1Screen', {page: 'Incident Notification'})}
+                            onPress={() => this.props.navigation.navigate('IncidentNotification', {page: 'Incident Notification'})}
                             style={styles.eachMenuContainer}>
                                 <Image source={icon_insident} style={{width: 60, height: 60, alignSelf: 'center'}}/>
                                 <Text>Incident Notification</Text>
                             </TouchableOpacity>
-                            <View style={{height: '100%', width: 4}}/>
+                            <View style={{height: '100%', width: 5}}/>
                             <TouchableOpacity 
                             onPress={() => this.props.navigation.navigate('Inspection', {page: 'Inspection'})}
                             style={styles.eachMenuContainer}>
@@ -127,8 +107,8 @@ const styles = {
     },
     cardUserInfo : {
         padding: 10,
-        paddingLeft: 20,
-        paddingRight: 20,
+        // paddingLeft: 30,
+        // paddingRight: 30,
         backgroundColor: '#fff',
         elevation: 5,
         borderRadius : 5,
@@ -136,8 +116,8 @@ const styles = {
         height: 100, 
         marginBottom: 10,
         marginTop: 20,
-        width: 445,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        width: '100%'
     },
     menuTitle:{
         fontSize: 12, 
@@ -179,26 +159,43 @@ const styles = {
       gradient: {
         width: undefined,
         // height: 200,
-        zIndex: 2
+        zIndex: 2,
+        backgroundColor: 'red'
       },
       containerMenu:{
           justifyContent:'center',
           alignItems: 'center',
         //   backgroundColor: 'red',
-          width: 445,
+        //   width: 445,
+          width: '100%',
           alignSelf: 'center',
           marginTop: 10,
-          marginBottom: 10
+          marginBottom: 50,
+          paddingLeft: 10,
+          paddingRight: 10
       },
       eachMenuContainer:{
         backgroundColor: '#fff',
-        width: 220, 
+        flex: 1,
+        // width: 220,
+        // width: '100%', 
         height: 130,
         justifyContent: 'center', 
         alignItems: 'center',
         padding: 10,
         borderRadius: 5,
         elevation: 4
+      },
+      buttonLogout: {
+        backgroundColor:'#B3A369', 
+        padding: 5,width: 50, 
+        height: 50, 
+        borderRadius: 50, 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'absolute', 
+        top: 0, 
+        right: 0
       }
 }
 export default Dashboard
