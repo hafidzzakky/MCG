@@ -6,15 +6,71 @@ import {
     Item, 
     Input, 
     Label,
-    Content
+    Content,
+    Spinner
 } from 'native-base';
 import { connect } from 'react-redux';
+import {Field, reduxForm} from 'redux-form';
+import {
+    FormInput
+} from '../../Components';
 import {
     AuthLogin
-} from '../../Actions'
-import Logo from '../../Assets/image/logo.png'
-import bgImg from '../../Assets/image/bgImg.jpg'
+} from '../../Actions';
+import Logo from '../../Assets/image/logo.png';
+import bgImg from '../../Assets/image/bgImg.jpg';
+let _isMounted = true;
+const UsernameRequired = value => value ? undefined : 'Username tidak boleh kosong';
+const PasswordRequired = value => value ? undefined : 'Password tidak boleh kosong';
+
 export class Login extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            DeviceIMEI: '',
+            DeviceModel:'',
+            DeviceOS: '',
+            DeviceOSVer: '',
+            DeviceUUID: ''
+        };
+        this.LoginUser = this.LoginUser.bind(this)
+    }
+
+    async componentDidMount(){
+        this._isMounted = true;
+    }
+
+    LoginUser = (data) => {
+        const params = {
+            username: data.username,
+            password: data.password,
+            grant_type: 'password'
+        }
+        this.props.AuthLogin(params);
+    }
+
+    renderButton = () => {
+        if(this.props.loading){
+            return  <Spinner size="small" color='#99552B' />
+        }
+        return(
+            <TouchableOpacity 
+                onPress={this.props.handleSubmit(this.LoginUser)}
+                style={{padding: 10, backgroundColor: '#99552B', borderRadius: 25, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 20
+            }}>
+                <Text style={{color: '#fff', fontWeight: 'bold', alignSelf:'center', marginTop: 5, marginBottom: 5}}>Login</Text>
+            </TouchableOpacity>
+        );
+    }
+
+    renderError = () => {
+        if(this.props.error){
+            return(
+                <Text style={{textAlign: 'center', width: '100%',color: '#e74c3c', fontWeight: 'bold', fontSize: 13, marginBottom: 10}}>{this.props.error}</Text>
+            );
+        }
+    }
+
     render() {
         return (
             <Container style={{flex: 1}}>
@@ -34,24 +90,22 @@ export class Login extends Component {
                 <View style={{padding: 25}}>
                     <View style={styles.cardLogin}>
                         <Form style={{padding: 10, backgroundColor: '#fff', paddingRight: 20}}>
-                            <Item floatingLabel style={{ marginTop: -10}}>
-                            <Label style={{fontSize: 13}}>Username</Label>
-                            <Input style={{fontSize: 13}} />
-                            </Item>
-                            <Item floatingLabel>
-                            <Label style={{fontSize: 13}}>Password</Label>
-                            <Input style={{fontSize: 13}}/>
-                            </Item>
+                            <Field name='username' label='Username' component={FormInput}
+                                // validate={[required, maxlength8, minValue8]}
+                                validate={[UsernameRequired]}
+                            />
+                            <View style={{height: 20}}/>
+                            <Field name='password' password={true} label='Password' component={FormInput}
+                                // validate={[required, maxlength8, minValue8]}
+                                validate={[PasswordRequired]}
+                            />
                         </Form>
-                        <TouchableOpacity 
-                            onPress={() => this.props.navigation.navigate('Dashboard')} 
-                            // onPress={() => this.props.AuthLogin()} 
-                            style={{padding: 10, backgroundColor: '#99552B', borderRadius: 25, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 20
-                        }}>
-                            <Text style={{color: '#fff', fontWeight: 'bold', alignSelf:'center', marginTop: 5, marginBottom: 5}}>Login</Text>
-                        </TouchableOpacity>
+                        {this.renderButton()}
+                        {/*error messege*/}
+                        {this.renderError()}
                     </View>
                 </View>
+                
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('IntroScreen')} style={{alignSelf: 'center', marginTop: 20}}>
                     <Text style={{fontSize: 12, color: '#63666A'}}>Butuh Bantuan?</Text>
                 </TouchableOpacity>
@@ -76,12 +130,19 @@ const styles = {
     }
 }
 
-const mapStateToProps = (state) => ({
-    
-})
+const LoginForm = reduxForm({
+    form: 'login',
+})(Login);
+
+const mapStateToProps = (state) => {
+    return{
+        loading: state.authState.loading,
+        error: state.authState.error
+    }
+  }
 
 const mapDispatchToProps = {
     AuthLogin
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

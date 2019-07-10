@@ -69,61 +69,27 @@ export class OKKAN extends Component {
         const page = navigation.getParam('page', 'Page not found');
         return (
             <HeaderSub title={page} navigation={this.props.navigation}>
-                <ImageBackground source={bgImg} style={{
-                        flex: 1,
-                        resizeMode: 'cover'
-                }}>
-                <View style={{backgroundColor: 'rgba(255, 255, 255,0.9)', flex: 1}}>
-                <Content style={{padding: 10}}>
-                    <View>
-                        <Text style={styles.titlePage}>Report</Text>
-                    </View>
-                    <View style={styles.tableContainer}>
-                        <View style={styles.tableHeadContainer}>
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Observation Data</Text>
-                            </View>
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Department</Text>
-                            </View> 
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Location</Text>
-                            </View> 
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Observed Department</Text>
-                            </View> 
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Shift</Text>
-                            </View>
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Status</Text>
-                            </View>
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Action</Text>
+                <Content>
+                    <TouchableOpacity 
+                        onPress={() => this.props.navigation.navigate('OKKANDetail', {page: 'Detail OK-KAN'})}
+                        style={styles.listItemContainer}>
+                        <Text style={styles.titleList}>Department</Text>
+                        <Text style={styles.departmenList}>Exploration</Text>
+                        <Text style={styles.locationList}>ACHR Topsoil Stockpile</Text>
+                        <View style={styles.containerRight}>
+                            <Text style={styles.dateList}>01 Januari 2019</Text>
+                            <Text style={[styles.dateList, {fontSize: 12, marginTop: 5}]}>Shift</Text>
+                            <View style={styles.containerStatus}>
+                                <Text style={styles.statusList}>Danger</Text>
                             </View>
                         </View>
-                        {this.state.ListDataOKKAN.length == 0 ?
-                            <View style={styles.containerTidakAdaData}>
-                                <Text>No Data</Text>
-                            </View>
-                            :
-                            this.state.ListDataOKKAN.map((item) => { 
-                                return this.renderRow(item);
-                            })
-                        }
-                    </View>
+                    </TouchableOpacity>
                 </Content>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('AddNewOKKAN', {page: 'Add New OK-KAN'})} style={{position: 'absolute', bottom: 20,right: 10, padding: 10, backgroundColor: '#99552B', height: 60, width: 60, borderRadius: 60/2, justifyContent: 'center', alignItems: 'center'}}>
+                <TouchableOpacity 
+                    onPress={() => this.props.navigation.navigate('AddNewOKKAN', {page: 'Add New OK-KAN'})} 
+                    style={styles.ButtonAdd}>
                     <Icons name='plus' size={35} color='#fff' />
                 </TouchableOpacity>
-                </View>
-                </ImageBackground>
             </HeaderSub>
         )
     }
@@ -209,6 +175,66 @@ const styles = {
         fontSize: 23,
         fontWeight: 'bold',
         marginBottom: 10
+    },
+    ButtonAdd:{
+        position: 'absolute', 
+        bottom: 20,
+        right: 10, 
+        padding: 10, 
+        backgroundColor: '#99552B', 
+        height: 60, 
+        width: 60, 
+        borderRadius: 60/2, 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    listItemContainer:{
+        borderRadius: 0, 
+        padding: 10, 
+        borderBottomColor: '#dbdbdb', 
+        borderBottomWidth: 1, 
+        marginTop: 0, 
+        backgroundColor:'#fff'
+    },
+    titleList: {
+        fontSize: 15, 
+        fontWeight: 'bold'
+    },
+    departmenList:{
+        fontSize: 13, 
+        marginTop: 5
+    },
+    locationList:{
+        fontSize: 11, 
+        marginTop: 5
+    },
+    containerRight:{
+        position: 'absolute',
+        borderRadius:20, 
+        top: 10, 
+        right: 10
+    },
+    dateList:{
+        fontWeight: 'bold', 
+        fontSize: 11, 
+        alignSelf: 'center', 
+        textAlign: 'center'
+    },
+    containerStatus:{
+        borderRadius:20, 
+        backgroundColor: '#e74c3c', 
+        padding: 5, 
+        width: 60, 
+        marginTop: 5, 
+        marginLeft: 20,
+        marginRight: 5
+    },
+    statusList: {
+        color: '#fff', 
+        fontWeight: 'bold', 
+        fontSize: 11, 
+        alignSelf: 'center', 
+        textAlign: 'center'
     }
 }
 

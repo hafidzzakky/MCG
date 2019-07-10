@@ -1224,7 +1224,7 @@ export class AddNewOKKAN extends Component {
                 </ListItem>
                 <ListItem selected={true} style={{marginLeft: 0}}>
                     <Left style={{marginLeft: 10}}>
-                        <Text style={{fontWeight: 'bold'}}>Corrent approach to mobile equipment</Text>
+                        <Text style={{fontWeight: 'bold'}}>Correct approach to mobile equipment</Text>
                     </Left>
                     <View style={{flexDirection: 'row'}}>
                         <View style={styles.containerRadioButton}>

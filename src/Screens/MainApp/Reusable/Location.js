@@ -9,7 +9,9 @@ import {
   ListItem
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import {
+  baselink
+} from '../../../Components';
 export class Location extends Component {
     constructor(props){
         super(props);
@@ -26,31 +28,39 @@ export class Location extends Component {
         this.getDataFromService();
     }
 
-    getDataFromService = () => {
-        return fetch('https://jsonplaceholder.typicode.com/users')
-        .then(response => response.json())
-        .then(responseJson => {
-          console.log('response : ', responseJson)
-          this.setState(
-            {
-              isLoading: false,
-              dataSource: responseJson
-            },
-            function() {
-              this.arrayholder = responseJson;
-            }
-          );
-        })
-        .catch(error => {
-          console.error(error);
-        });
+    getDataFromService = async () => {
+      const Token = await AsyncStorage.getItem('access_token').catch(e=>console.log(e));
+      await fetch(baselink + 'api/Account/listlocation', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer '+ Token,
+            'Content-Type' : 'application/x-www-form-urlencoded',
+            'Accept'       : 'application/x-www-form-urlencoded',
+        }
+      })
+      .then(response => response.json())
+      .then((responseJson) => {
+        console.log('location : ', responseJson);
+        this.setState(
+          {
+            isLoading: false,
+            dataSource: responseJson
+          },
+          function() {
+            this.arrayholder = responseJson;
+          }
+        );
+      })
+      .catch((e) => {
+        console.log(e)
+      })
     }
 
     SearchFilterFunction(text) {
         //passing the inserted text in textinput
         const newData = this.arrayholder.filter(function(item) {
           //applying filter for the inserted text in search bar
-          const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+          const itemData = item.Name ? item.Name.toUpperCase() : ''.toUpperCase();
           const textData = text.toUpperCase();
           return itemData.indexOf(textData) > -1;
         });
@@ -70,10 +80,8 @@ export class Location extends Component {
     
     _storeData = async (data) => {
         let dataKaryawan = {
-            id: data.id,
-            nama: data.name,
-            nik: data.email,
-            posisi: data.website
+            id: data.ID,
+            nama: data.Name
         }
     
         try {
@@ -109,14 +117,12 @@ export class Location extends Component {
     
         return(
           <FlatList 
-            keyExtractor={(item, index) => item.id+'-'+item.nama}
+            keyExtractor={(item, index) => item.ID}
             data = {this.state.dataSource}
             renderItem={({item}) => {
                 return(
                     <TouchableOpacity onPress={() => this._storeData(item)} style={{backgroundColor: '#fff', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, padding: 10}}>
-                      <Text style={{fontSize: 15, fontWeight: 'bold'}}>{item.name}</Text>
-                      <Text style={{fontSize: 13}}>{item.email}</Text>
-                      <Text style={{fontSize: 13}}>{item.website}</Text>
+                      <Text style={{fontSize: 15, fontWeight: 'bold'}}>{item.Name}</Text>
                     </TouchableOpacity>
                 );
             }}

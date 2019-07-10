@@ -37,6 +37,7 @@ export class AddReportIncident extends Component {
         super(props);
         this.state = {
             ReportedBy: 'John Doe',
+            Location: '',
             ImageSource1: null,
             ImageSource2: null,
             ImageSource3: null,
@@ -102,6 +103,21 @@ export class AddReportIncident extends Component {
           console.log(object)
         }
         console.log('reported : ', this.state.ReportedBy);
+    }
+
+    getDataLocation = async () => {
+        try {
+            const value = await AsyncStorage.getItem('dataLocation')
+            console.log('re : ', value)
+            if(value !== null) {
+              this.setState({
+                  Location: JSON.parse(value)
+              })
+            }
+        } catch(e) {
+            console.log(object)
+        }
+        console.log('Location : ', this.state.Location);
     }
 
     //immediate action
@@ -689,11 +705,16 @@ export class AddReportIncident extends Component {
                     <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Location Of Incident</Text>
                     </View>
-                    <View style={{padding: 10, paddingTop: 0}}>
-                        <Dropdown
-                            label='Location'
-                            data={data}
-                        />
+                    <View style={{padding: 10}}>
+                        <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('Location', {
+                                onGoBack: () => this.getDataLocation(),
+                                page: 'Location'
+                            })}
+                            style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
+                            <Text style={{fontSize: 16, color: '#939393'}}>Location </Text>
+                            <Text style={{fontSize: 16, color: '#939393', marginLeft: 10}}>{this.state.Location.nama}</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.containerHeaderItem}>
                         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Responsible Departement</Text>

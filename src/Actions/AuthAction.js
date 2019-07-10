@@ -1,31 +1,53 @@
+import { Platform, NativeModules } from 'react-native';
 import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
-    LOGIN_USER_LOADING,
-    LOGGOUT_USER,      
-    APP_LOADED,        
+    LOGIN_USER_LOADING,  
+    APP_LOADED,       
+    FAIL_CHECK_SPLASH,
+    LOGOUT_USER_SUCCESS,
+    CHECK_VERSION_LOADING,
+    CHECK_VERSION_FAIL
 } from './Types';
 import {
     infoDevice,
-    buildFormBody
+    buildFormBody,
+    baselink
 } from '../Components';
+import AsyncStorage from '@react-native-community/async-storage';
 
-export const checkSplashScreen = (data) => {
-    console.log('checkSplashScreen')
+export const checkSplashScreen = (isLoggin, token) => {
+    console.log('check splash : ', isLoggin, ' token : ', token);
+    return(dispatch) => {
+        // if(isLoggin !== null){
+        //     dispatch({type: LOGIN_USER_SUCCESS})
+        //     dispatch({type: APP_LOADED})
+        // }else{
+        //     dispatch({type: APP_LOADED})
+        //     // dispatch({
+        //     //     type : FAIL_CHECK_SPLASH, 
+        //     //     payload: 'Gagal check Splash Screen'
+        //     // })
+        // }
+        if(isLoggin){
+            dispatch({type: LOGIN_USER_SUCCESS})
+        }
+        dispatch({type: APP_LOADED})
+    }
 }
 
-export const AuthLogin = () => {
+export const AuthLogin = (data) => {
     //define data params
     let detail = {
         username     : 'admin@system.com',
         password     : 'pass123',
         grant_type   : 'password'
     };
-    console.log('masuk auth login')
+    console.log('masuk auth login : ', data);
     return(dispatch) => {
         dispatch({ type: LOGIN_USER_LOADING });
         //post method
-        fetch('http://202.158.14.174:9093/oauth/token', {
+        fetch(baselink + 'oauth/token', {
             method: 'POST',
             headers: {
                 'Content-Type':  'application/x-www-form-urlencoded',
@@ -35,24 +57,21 @@ export const AuthLogin = () => {
         .then(response => response.json())
         .then((data) => {
             console.log('response bearer', data)
-            if(data.error_description !== ''){
+            if(data.access_token == ''){
                 //gagal login
                 dispatch({
                     type: LOGIN_USER_FAIL,
                     payload: data.error_description
                 })
             }else{
-                //berhasil login
-                // save data
-                AsyncStorage.multiSet([
-                    ['access_token', data.access_token],
-                    ['userName', data.userName]
-                ])
+                AsyncStorage.setItem('authenticated', '1');
+                AsyncStorage.setItem('access_token', data.access_token);
+                AsyncStorage.setItem('userName', data.userName);
+                AsyncStorage.setItem('expires', JSON.stringify(data.expires_in));
                 dispatch({
                     type: LOGIN_USER_SUCCESS,
-                    payload: data.error_description
-                })
-                console.log('response', data)
+                    payload: data
+                });
             }
         })
         .catch((error) => {
@@ -62,6 +81,17 @@ export const AuthLogin = () => {
             })
         });
     };
+}
+
+export const LogOut = () => {
+    console.log('masuk logout')
+    //hits service
+    return(dispatch) => {
+        AsyncStorage.multiRemove(['access_token','userName','authenticated','issued', 'expires'])
+        dispatch({
+            type: LOGOUT_USER_SUCCESS
+        })
+    }
 }
 
 export const GetUserInfo = () => {

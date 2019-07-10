@@ -7,8 +7,13 @@ import {
     HeaderApp
 } from '../../Components';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 import GridView , {SuperGridSectionList} from 'react-native-super-grid';
 import LinearGradient from 'react-native-linear-gradient';
+import { connect } from 'react-redux';
+import {
+    LogOut
+} from '../../Actions'
 import user from '../../Assets/image/user.png';
 import bgImg from '../../Assets/image/bgImg.jpg';
 import logo from '../../Assets/image/logo.png';
@@ -17,7 +22,33 @@ import icon_insident from '../../Assets/image/icon_insident.png';
 import icon_inspection from '../../Assets/image/icon_inspection.png';
 import icon_okkan from '../../Assets/image/icon_okkan.png';
 import icon_tahan from '../../Assets/image/icon_tahan.png';
+
 export class Dashboard extends Component {
+    constructor(props){
+        super(props);
+        this.state = { };
+        this.LogOutUser = this.LogOutUser.bind(this)
+    }
+    
+    LogOutUser = () => {
+        this.props.LogOut();
+        // this.props.navigation.navigate('LoginScreen')
+    }
+
+    componentDidMount(){
+        this.getExpDate();
+    }
+
+    getExpDate = async () => {
+        const Exp = await AsyncStorage.getItem('authenticated').catch(e=>console.log(e));
+        const access_token = await AsyncStorage.getItem('access_token').catch(e=>console.log(e));
+        const userName = await AsyncStorage.getItem('userName').catch(e=>console.log(e));
+        const expires = await AsyncStorage.getItem('expires').catch(e=>console.log(e));
+        console.log('ok ', Exp)
+        console.log('ok ', access_token)
+        console.log('userName ', userName)
+        console.log('expires ', new Date(expires*1000).toString())
+    } 
     render() {   
         return (
                 <Container>
@@ -28,7 +59,7 @@ export class Dashboard extends Component {
                     <View style={{backgroundColor: 'rgba(255, 255, 255,0.9)', flex: 1}}>
                     <Content style={{padding: 10}}>
                     <TouchableOpacity 
-                        onPress={() => this.props.navigation.navigate('LoginScreen')}
+                        onPress={() => this.LogOutUser()}
                         style={styles.buttonLogout}>
                         <Icons name='exit-to-app' style={{marginTop: 0}} size={20} color='#fff' />
                         <Text style={{fontSize: 10, color: '#fff'}}>Logout</Text>
@@ -198,4 +229,13 @@ const styles = {
         right: 0
       }
 }
-export default Dashboard
+
+const mapStateToProps = (state) => ({
+    
+})
+
+const mapDispatchToProps = {
+    LogOut
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

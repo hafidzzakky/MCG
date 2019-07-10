@@ -66,56 +66,10 @@ export class IncidentNotification extends Component {
         const page = navigation.getParam('page', 'Page not found');
         return (
             <HeaderSub title={page} navigation={this.props.navigation}>
-                <ImageBackground source={bgImg} style={{
-                        flex: 1,
-                        resizeMode: 'cover'
-                }}>
-                <View style={{backgroundColor: 'rgba(255, 255, 255,1)', flex: 1}}>
-                <Content style={{padding: 0}}>
-                    {/* <View>
-                        <Text style={styles.titlePage}>Report</Text>
-                    </View>
-                    <View style={styles.tableContainer}>
-                        <View style={styles.tableHeadContainer}>
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Incident Date</Text>
-                            </View>
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Incident Title</Text>
-                            </View> 
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Resp. Department</Text>
-                            </View> 
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Resp. Section</Text>
-                            </View> 
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Location</Text>
-                            </View>
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Status</Text>
-                            </View>
-                            <View style={styles.tableHeadSeparator} />
-                            <View style={styles.headerTable}>
-                                <Text style={styles.fontStyle}>Action</Text>
-                            </View>
-                        </View>
-                        {this.state.ListDataIncident.length == 0 ?
-                            <View style={styles.containerTidakAdaData}>
-                                <Text>No Data</Text>
-                            </View>
-                            :
-                            this.state.ListDataIncident.map((item) => { 
-                                return this.renderRow(item);
-                            })
-                        }
-                    </View> */}
-                    <TouchableOpacity style={{borderRadius: 0, padding: 10, borderBottomColor: '#dbdbdb', borderBottomWidth: 1, marginTop: 0, backgroundColor:'#fff'}}>
+                <Content>
+                    <TouchableOpacity 
+                        onPress={() => this.props.navigation.navigate('DetailIncident', {page: 'Detail Incident'})}
+                        style={{borderRadius: 0, padding: 10, borderBottomColor: '#dbdbdb', borderBottomWidth: 1, marginTop: 0, backgroundColor:'#fff'}}>
                         <Text style={{fontSize: 15, fontWeight: 'bold'}}>Kecelakaan Longsor</Text>
                         <Text style={{fontSize: 13, }}>Earthwork</Text>
                         <Text style={{fontSize: 13, }}>-</Text>
@@ -126,16 +80,11 @@ export class IncidentNotification extends Component {
                                 <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>Danger</Text>
                             </View>
                         </View>
-                        {/* <View style={{position: 'absolute',borderRadius:20, bottom: 10, right: 10, backgroundColor: '#e74c3c', padding: 5, width: 60}}>
-                            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>Status</Text>
-                        </View> */}
                     </TouchableOpacity>
                 </Content>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('addReportIncident', {page: 'Add New Incident'})} style={{position: 'absolute', bottom: 20,right: 10, padding: 10, backgroundColor: '#99552B', height: 60, width: 60, borderRadius: 60/2, justifyContent: 'center', alignItems: 'center'}}>
                     <Icons name='plus' size={35} color='#fff' />
                 </TouchableOpacity>
-                </View>
-                </ImageBackground>
             </HeaderSub>
         )
     }
