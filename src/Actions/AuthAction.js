@@ -19,16 +19,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const checkSplashScreen = (isLoggin, token) => {
     console.log('check splash : ', isLoggin, ' token : ', token);
     return(dispatch) => {
-        // if(isLoggin !== null){
-        //     dispatch({type: LOGIN_USER_SUCCESS})
-        //     dispatch({type: APP_LOADED})
-        // }else{
-        //     dispatch({type: APP_LOADED})
-        //     // dispatch({
-        //     //     type : FAIL_CHECK_SPLASH, 
-        //     //     payload: 'Gagal check Splash Screen'
-        //     // })
-        // }
         if(isLoggin){
             dispatch({type: LOGIN_USER_SUCCESS})
         }
