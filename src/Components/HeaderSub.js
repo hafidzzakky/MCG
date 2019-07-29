@@ -23,18 +23,6 @@ export class HeaderSub extends Component {
 }
 
 const styles = {
-    headerBackground: {
-        backgroundColor: '#00646A'
-    },
-    profileThumbnail:{
-        // borderColor: '#00646A',
-        // borderWidth: 2
-        // shadowOffset:{  width: 10,  height: 10,  },
-        // shadowColor: 'black',
-        // // shadowOpacity: 1.0,
-        // shadowRadius: 10,
-        // shadowOpacity: 0.12,
-    },
     viewStyle : {
         marginLeft: -10,
         backgroundColor : "#fff",
@@ -49,7 +37,6 @@ const styles = {
     },
     textStyle : {
         marginTop: Platform.OS=='ios'?5:0,
-        // marginTop: 5,
         marginLeft: 5,
         fontSize : 16,
         alignSelf:'center',

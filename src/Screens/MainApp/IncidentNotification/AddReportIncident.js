@@ -29,6 +29,9 @@ import camera2 from '../../../Assets/image/camera2.png'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import consequence from '../../../Assets/image/consequence.png';
+import risk_level_detail from '../../../Assets/image/risk_level_detail.png';
+import risk1 from '../../../Assets/image/risk1.png';
 const primaryincidentData = [{id: 1, nama: 'Injury/Illness'}, {id: 2, nama: 'Property Damage'}, {id: 3, nama: 'Environmental'}, {id: 4, nama: 'Production Loss'}, {id: 5, nama: 'Community'}, {id: 6, nama: 'Security'}, {id: 7, nama: 'Financial Loss'}, {id: 8, nama: 'Non Reportable'}, {id: 9, nama: 'Near Miss'}];
 const secondaryincidentData = [{id: 1, nama: 'Community'}, {id: 2, nama: 'Injury/Illness'}, {id: 3, nama: 'Production Loss'}, {id: 4, nama: 'Plant/Property Damage'}, {id: 5, nama: 'Environtment Harm'}];
 
@@ -54,8 +57,47 @@ export class AddReportIncident extends Component {
             timePickerIncident: false,
             chosenTimeIncident: '',
             DataImmediateAction : [],
-            DataAdditionalImmediateAction: []
+            DataAdditionalImmediateAction: [],
+            ListCompany: [],
+            listDepartment: [],
+            listSection: [],
+            listContractor: [],
+            Contractor: '',
+            Employment: '',
+            responsibleDepartment:'',
+            responsibleSection: '',
+            ModalRiskVisible: false
+
         };
+    }
+
+    onsubmit = () => {
+        console.log('on Submit : ', this.state);
+    }
+
+    async componentDidMount(){
+        console.log('masoook')
+        try {
+            const value = await AsyncStorage.getItem('ListCompany');
+            const Department = await AsyncStorage.getItem('ListDepartment');
+            const Section = await AsyncStorage.getItem('ListSection');
+            const Contractor = await AsyncStorage.getItem('ListContractor');
+            if(value !== null || Department !== null || Section !== null) {
+                let listCompany = JSON.parse(value);
+                let listDepartment = JSON.parse(Department);
+                let listSection = JSON.parse(Section);
+                let listContractor = JSON.parse(Contractor);
+                console.log('ddata report incident : ', JSON.parse(Contractor));
+                this.setState({
+                    ListCompany: listCompany,
+                    listDepartment: listDepartment,
+                    listSection: listSection,
+                    listContractor: listContractor
+                })
+            }
+        } catch(e) {
+            console.log(object)
+        }
     }
 
     getDataImmediateAction = async () => {
@@ -341,6 +383,20 @@ export class AddReportIncident extends Component {
         this.setState({ModalVisible: true})
     }
 
+    viewImageRisk = (visible) => {
+        this.setState({ModalRiskVisible: visible})
+    }
+
+    onChangeText(text) {
+        ['name', 'code', 'sample', 'typography']
+          .map((name) => ({ name, ref: this[name] }))
+          .filter(({ ref }) => ref && ref.isFocused())
+          .forEach(({ name, ref }) => {
+            this.setState({ [name]: text });
+            console.log('dropdown : ', this.state);
+          });
+    }
+
     render() {
         const { navigation } = this.props;
         const page = navigation.getParam('page', 'Page not found');
@@ -351,6 +407,9 @@ export class AddReportIncident extends Component {
           }, {
             value: 'PT. Bumi Suksesindo',
         }];
+        
+        {console.log(this.state)}
+
         const images = [
             {
                 source: this.state.ImageSource1 == null ? camera2 : this.state.ImageSource1,
@@ -369,7 +428,25 @@ export class AddReportIncident extends Component {
                 title: 'Paris',
                 width: 806,
                 height: 720,
+            }
+        ];
+
+        const imagesRiskLevel = [
+            {
+                source: consequence,
+                width: 806,
+                height: 720,
             },
+            {
+                source: risk_level_detail,
+                width: 806,
+                height: 720,
+            },
+            {
+                source: risk1,
+                width: 450,
+                height: 250,
+            }
         ];
 
         return (
@@ -381,11 +458,15 @@ export class AddReportIncident extends Component {
                     <View style={{padding: 10, paddingTop: 0}}>
                         <Dropdown
                             label='Employment'
-                            data={data}
+                            data={this.state.ListCompany}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({Employment : text})}
                         />
                         <Dropdown
                             label='Contractor'
-                            data={data}
+                            data={this.state.listContractor}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({Contractor : text})}
                         />
                         <TouchableOpacity 
                             onPress={() => this.props.navigation.navigate('ReportedBy', {
@@ -580,7 +661,9 @@ export class AddReportIncident extends Component {
                     <View style={[styles.containerHeaderItem, {alignItems: 'center', flexDirection: 'row'}]}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
                             <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Risk Level</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity 
+                                onPress={() => this.viewImageRisk(!this.state.ModalRiskVisible)}
+                            >
                                 <Icons name='help-circle' style={{marginTop: 0}} size={20} color='#B3A369' />
                             </TouchableOpacity>
                         </View>
@@ -722,7 +805,9 @@ export class AddReportIncident extends Component {
                     <View style={{padding: 10, paddingTop: 0}}>
                         <Dropdown
                             label='Responsible Department'
-                            data={data}
+                            data={this.state.listSection}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({responsibleDepartment : text})}
                         />
                     </View>
                     <View style={styles.containerHeaderItem}>
@@ -731,7 +816,9 @@ export class AddReportIncident extends Component {
                     <View style={{padding: 10, paddingTop: 0}}>
                         <Dropdown
                             label='Reporting Section'
-                            data={data}
+                            data={this.state.listSection}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({responsibleSection : text})}
                         />
                     </View>
                     <View style={styles.containerHeaderItem}>
@@ -901,9 +988,15 @@ export class AddReportIncident extends Component {
                     imageIndex={0}
                     isVisible={this.state.ModalVisible}
                 />
+                <ImageView
+                    images={imagesRiskLevel}
+                    imageIndex={0}
+                    isVisible={this.state.ModalRiskVisible}
+                />
                 <TouchableOpacity 
+                    onPress={() => this.onsubmit()}
                     style={{position: 'absolute',width: '100%', bottom: 0, flex: 1, padding: 10, backgroundColor: '#99552B'}}>
-                    <Text style={{color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>Kirim</Text>
+                    <Text style={{color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>Submit</Text>
                 </TouchableOpacity>
             </HeaderSub>
         )

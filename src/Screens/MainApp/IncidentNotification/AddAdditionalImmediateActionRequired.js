@@ -23,25 +23,34 @@ export class AddAdditionalImmediateActionRequired extends Component {
         isDateTimePickerVisible: false,
         chosenDate: '',
         ResponsibleDepartment: 'Kemananan',
-        AssignTo: 'John Doe',
+        AssignTo: '',
         PriorityCategory: 'Temporary',
         Priority:'A1',
         ImmediateAction: 'aksi aksi aksi',
         isEdit: false,
         idEdit: '',
         EditAssignTo:[],
-        EditChosenDate:''
+        EditChosenDate:'',
+        listDepartment: [],
+        ResponsibleDepartment: ''
     };
   }
 
   async componentDidMount(){
     try {
-        const value = await AsyncStorage.getItem('isEdit')
+        await AsyncStorage.removeItem('dataReportedBy')
+        const value = await AsyncStorage.getItem('isEdit');
+        const Department = await AsyncStorage.getItem('ListDepartment');
         if(value !== null) {
-            this.setState({
-                isEdit: JSON.parse(value)
-            })
-            this.editData()
+          this.setState({
+              isEdit: JSON.parse(value)
+          })
+          this.editData()
+        }
+        if(Department !== null){
+          this.setState({
+              listDepartment: JSON.parse(Department)
+          })
         }
       } catch(e) {
         console.log(e)
@@ -220,11 +229,10 @@ export class AddAdditionalImmediateActionRequired extends Component {
         <Content>
           <View style={{padding: 10, marginTop: -10}}>
             <Dropdown
-                ref={this.ResponsibleDepartmentRef}
                 label='Responsible Department'
-                data={data}
-                value={this.state.ResponsibleDepartment}
-                onChangeText={this.onChangeText}
+                data={this.state.listDepartment}
+                valueExtractor={({ Name }) => Name}
+                onChangeText={(text) => this.setState({ResponsibleDepartment : text})}
             />
             <TouchableOpacity 
                 onPress={() => this.props.navigation.navigate('ReportedBy', {

@@ -18,6 +18,9 @@ import camera2 from '../../../Assets/image/camera2.png'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import risk_level_detail from '../../../Assets/image/risk_level_detail.png';
+import risk1 from '../../../Assets/image/risk1.png';
+import consequence from '../../../Assets/image/consequence.png';
 
 export class AddHazardReport extends Component {
     constructor(props){
@@ -33,6 +36,12 @@ export class AddHazardReport extends Component {
             ImageSource: '',
             ButtonVisible: false,
             ModalVisible : false,
+            listDepartment: [],
+            listSection: [],
+            ReportingDepartment: '',
+            ReportingSection: '',
+            ResponsibleDepartment: '',
+            ModalRiskVisible: false
 
         };
     }
@@ -40,10 +49,23 @@ export class AddHazardReport extends Component {
     async componentDidMount(){
         try{
             await AsyncStorage.removeItem('isEdit');
-            return true;
+            const Department = await AsyncStorage.getItem('ListDepartment');
+            const Section = await AsyncStorage.getItem('ListSection');
+            if(Department !== null || Section !== null) {
+                let listDepartment = JSON.parse(Department);
+                let listSection = JSON.parse(Section);
+                this.setState({
+                    listDepartment: listDepartment,
+                    listSection: listSection
+                })
+            }
         }catch(exception){
             return false;
         }
+    }
+
+    viewImageRisk = (visible) => {
+        this.setState({ModalRiskVisible: visible})
     }
 
     getDataReportedBy = async () => {
@@ -233,6 +255,25 @@ export class AddHazardReport extends Component {
                 height: 720,
             }
         ];
+
+        const imagesRiskLevel = [
+            {
+                source: consequence,
+                width: 806,
+                height: 720,
+            },
+            {
+                source: risk_level_detail,
+                width: 806,
+                height: 720,
+            },
+            {
+                source: risk1,
+                width: 450,
+                height: 250,
+            }
+        ];
+        
         return (
             <HeaderSub title={page} navigation={this.props.navigation}>
                 <Content>
@@ -251,11 +292,15 @@ export class AddHazardReport extends Component {
                         </TouchableOpacity>
                         <Dropdown
                             label='Reporting Department'
-                            data={data}
+                            data={this.state.listDepartment}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({ReportingDepartment : text})}
                         />
                         <Dropdown
                             label='Reporting Section'
-                            data={data}
+                            data={this.state.listSection}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({ReportingSection : text})}
                         />
                         <TouchableOpacity 
                             onPress={() => this.props.navigation.navigate('Location', {
@@ -284,7 +329,9 @@ export class AddHazardReport extends Component {
                         </TouchableOpacity>
                         <Dropdown
                             label='Responsible Department'
-                            data={data}
+                            data={this.state.listDepartment}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({ResponsibleDepartment : text})}
                         />
                     </View>
                     <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>
@@ -306,7 +353,7 @@ export class AddHazardReport extends Component {
                     <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1',alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
                             <Text style={{fontWeight: 'bold', fontSize: 15, color: '#63666A'}}>Evidence & Actual Risk Level</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.viewImageRisk(!this.state.ModalRiskVisible)}>
                                 <Icons name='help-circle' style={{marginTop: 0}} size={20} color='#B3A369' />
                             </TouchableOpacity>
                         </View>
@@ -415,6 +462,12 @@ export class AddHazardReport extends Component {
                     images={images}
                     imageIndex={0}
                     isVisible={this.state.ModalVisible}
+                />
+                {/* actual risk */}
+                <ImageView
+                    images={imagesRiskLevel}
+                    imageIndex={0}
+                    isVisible={this.state.ModalRiskVisible}
                 />
                 <TouchableOpacity 
                     onPress={() => this.props.navigation.goBack()}

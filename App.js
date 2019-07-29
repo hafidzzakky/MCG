@@ -74,7 +74,7 @@ export class App extends PureComponent {
   }
 
   listCompany = async (token) => {
-    console.log('halo ', token)
+    console.log('halo ', token);
     await fetch(baselink + 'api/Account/listcompany', {
         method: 'POST',
         headers: {
@@ -89,6 +89,28 @@ export class App extends PureComponent {
         loadingSplashInfo: 'Checking List Company'
       })
       AsyncStorage.setItem('ListCompany', JSON.stringify(data));
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+  }
+
+  listContractor = async (token) => {
+    console.log('halo ', token)
+    await fetch(baselink + 'api/Account/listcontractor', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer '+ token,
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Accept'       : 'application/x-www-form-urlencoded',
+      }
+    })
+    .then(response => response.json())
+    .then((data) => {
+      this.setState({
+        loadingSplashInfo: 'Checking List Contractor'
+      })
+      AsyncStorage.setItem('ListContractor', JSON.stringify(data));
     })
     .catch((e) => {
       console.log(e)
@@ -243,6 +265,7 @@ export class App extends PureComponent {
     await this.listEmployee(Token);
     await this.listTenant(Token);
     await this.listLocation(Token);
+    await this.listContractor(Token);
     this.setState({
       loadingSplashInfo: 'Done'
     })

@@ -76,8 +76,8 @@ export class IncidentNotification extends Component {
                         <Text style={{fontSize: 11, }}>ACHR Topsoil Stockpile</Text>
                         <View style={{position: 'absolute',borderRadius:20, top: 10, right: 10}}>
                             <Text style={{fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>01 Januari 2019</Text>
-                            <View style={{borderRadius:20, backgroundColor: '#e74c3c', padding: 5, width: 60, marginTop: 10, marginLeft: 25}}>
-                                <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>Danger</Text>
+                            <View style={{borderRadius:20, backgroundColor: '#16a085', padding: 5, width: 60, marginTop: 10, marginLeft: 25}}>
+                                <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>Sent</Text>
                             </View>
                         </View>
                     </TouchableOpacity>

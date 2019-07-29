@@ -2,6 +2,9 @@ package com.mcg;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.maps.MapsPackage;
+import codes.simen.IMEI.IMEI;
+import com.horcrux.svg.SvgPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -31,17 +34,20 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
+            new MainReactPackage(),
+            new MapsPackage(),
+            new IMEI(),
+            new SvgPackage(),
             new AsyncStoragePackage(),
             new ImagePickerPackage(),
             new RNDeviceInfo(),
-          new RNFirebasePackage(),
-          new RNFirebaseMessagingPackage(),
-          new RNFirebaseNotificationsPackage(),
-          new LottiePackage(),
-          new RNCameraPackage(),
-          new LinearGradientPackage(),
-          new VectorIconsPackage()
+            new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage(),
+            new RNFirebaseNotificationsPackage(),
+            new LottiePackage(),
+            new RNCameraPackage(),
+            new LinearGradientPackage(),
+            new VectorIconsPackage()
       );
     }
 

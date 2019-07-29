@@ -6,8 +6,10 @@ import {
 import {
     HeaderSub
 } from '../../../Components';
+import ImageView from 'react-native-image-view';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
-import bgImg from '../../../Assets/image/bgImg.jpg'
+import bgImg from '../../../Assets/image/bgImg.jpg';
+
 export class HazardReport extends Component {
     constructor(props){
         super(props);
@@ -72,14 +74,14 @@ export class HazardReport extends Component {
                     <TouchableOpacity 
                     onPress={() => this.props.navigation.navigate('HazardDetail', {page: 'Detail Hazard'})}
                     style={styles.listItemContainer}>
-                        <Text style={styles.titleList}>Inspection Type</Text>
+                        <Text style={styles.titleList}>Hazard Type</Text>
                         <Text style={styles.departmenList}>Exploration</Text>
                         <Text style={styles.locationList}>ACHR Topsoil Stockpile</Text>
                         <View style={styles.containerRight}>
-                            <Text style={styles.dateList}>01 Januari 2019</Text>
-                            <Text style={[styles.titleList, {fontSize: 12, marginTop: 5}]}>Actual Risk Level</Text>
+                            <Text style={[styles.dateList, {textAlign: 'right'}]}>01 Januari 2019</Text>
+                            <Text style={[styles.titleList, {fontSize: 12, marginTop: 5, textAlign: 'right'}]}>Moderate</Text>
                             <View style={styles.containerStatus}>
-                                <Text style={styles.statusList}>Danger</Text>
+                                <Text style={styles.statusList}>sent</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -221,7 +223,7 @@ const styles = {
     },
     containerStatus:{
         borderRadius:20, 
-        backgroundColor: '#e74c3c', 
+        backgroundColor: '#16a085', 
         padding: 5, 
         width: 60, 
         marginTop: 5, 

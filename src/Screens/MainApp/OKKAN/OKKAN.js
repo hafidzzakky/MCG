@@ -78,9 +78,9 @@ export class OKKAN extends Component {
                         <Text style={styles.locationList}>ACHR Topsoil Stockpile</Text>
                         <View style={styles.containerRight}>
                             <Text style={styles.dateList}>01 Januari 2019</Text>
-                            <Text style={[styles.dateList, {fontSize: 12, marginTop: 5}]}>Shift</Text>
+                            <Text style={[styles.dateList, {fontSize: 12, marginTop: 5, textAlign: 'right'}]}>Shift</Text>
                             <View style={styles.containerStatus}>
-                                <Text style={styles.statusList}>Danger</Text>
+                                <Text style={styles.statusList}>Sent</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -217,17 +217,16 @@ const styles = {
     dateList:{
         fontWeight: 'bold', 
         fontSize: 11, 
-        alignSelf: 'center', 
-        textAlign: 'center'
+        textAlign: 'right'
     },
     containerStatus:{
         borderRadius:20, 
-        backgroundColor: '#e74c3c', 
+        backgroundColor: '#16a085', 
         padding: 5, 
         width: 60, 
         marginTop: 5, 
         marginLeft: 20,
-        marginRight: 5
+        marginRight: 0
     },
     statusList: {
         color: '#fff', 

@@ -6,3 +6,4 @@ export * from './API';
 export * from './FormInput';
 export * from './AccordionInncident';
 export * from './AccordionAdditionalIncident';
+export * from './Fonts';

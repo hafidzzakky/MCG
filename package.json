@@ -6,25 +6,35 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
+  "rnpm": {
+    "assets": [
+      "./src/Assets/fonts/"
+    ]
+  },
   "dependencies": {
     "@react-native-community/async-storage": "^1.5.0",
     "lottie-react-native": "^2.6.1",
     "moment": "^2.24.0",
     "native-base": "^2.12.1",
+    "paths-js": "^0.4.9",
     "react": "16.8.3",
     "react-native": "0.59.9",
     "react-native-camera": "^2.10.2",
+    "react-native-chart-kit": "^3.1.0",
     "react-native-device-info": "2.1.2",
     "react-native-firebase": "^5.4.3",
+    "react-native-flash-message": "^0.1.13",
     "react-native-image-picker": "^0.28.1",
     "react-native-image-view": "^2.1.5",
     "react-native-imei": "^0.2.0",
     "react-native-linear-gradient": "^2.5.4",
+    "react-native-maps": "0.25.0",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-material-textfield": "^0.12.0",
     "react-native-modal-datetime-picker": "^7.4.2",
     "react-native-modalbox": "^1.7.1",
     "react-native-super-grid": "^3.0.4",
+    "react-native-svg": "^9.5.3",
     "react-native-swipe-list-view": "^1.5.5",
     "react-native-swiper": "^1.5.14",
     "react-native-vector-icons": "^6.5.0",

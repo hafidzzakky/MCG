@@ -21,7 +21,34 @@ export class AddReportInspection extends Component {
             Observer: [],
             datePickerInspection: false,
             chosenDateInspection: '',
+            ListCompany: [],
+            listDepartment: [],
+            listSection: [],
+            Employment: '',
+            responsibleDepartment:'',
+            responsibleSection: ''
         };
+    }
+
+    async componentDidMount(){
+        try {
+            const value = await AsyncStorage.getItem('ListCompany');
+            const Department = await AsyncStorage.getItem('ListDepartment');
+            const Section = await AsyncStorage.getItem('ListSection');
+            if(value !== null || Department !== null || Section !== null) {
+                let data = JSON.parse(value);
+                let listDepartment = JSON.parse(Department);
+                let listSection = JSON.parse(Section);
+                console.log('ddata : ', JSON.parse(value));
+                this.setState({
+                    ListCompany: data,
+                    listDepartment: listDepartment,
+                    listSection: listSection
+                })
+            }
+        } catch(e) {
+            console.log(object)
+        }
     }
 
     getDataObserver = async () => {
@@ -135,15 +162,21 @@ export class AddReportInspection extends Component {
                         </TouchableOpacity>
                         <Dropdown
                             label='Company'
-                            data={data}
+                            data={this.state.ListCompany}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({Employment : text})}
                         />
                         <Dropdown
                             label='Department'
-                            data={data}
+                            data={this.state.listDepartment}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({responsibleDepartment : text})}
                         />
                         <Dropdown
                             label='Section'
-                            data={data}
+                            data={this.state.listSection}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({responsibleSection : text})}
                         />
                     </View>
                     <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>

@@ -32,6 +32,11 @@ export class AddTahanReport extends Component {
             ImageSource: '',
             ButtonVisible: false,
             ModalVisible : false,
+            listDepartment: [],
+            listSection: [],
+            ReportingDepartment: '',
+            ReportingSection: '',
+            ResponsibleDepartment: ''
 
         };
     }
@@ -39,7 +44,16 @@ export class AddTahanReport extends Component {
     async componentDidMount(){
         try{
             await AsyncStorage.removeItem('isEdit');
-            return true;
+            const Department = await AsyncStorage.getItem('ListDepartment');
+            const Section = await AsyncStorage.getItem('ListSection');
+            if(Department !== null || Section !== null) {
+                let listDepartment = JSON.parse(Department);
+                let listSection = JSON.parse(Section);
+                this.setState({
+                    listDepartment: listDepartment,
+                    listSection: listSection
+                })
+            }
         }catch(exception){
             return false;
         }
@@ -251,11 +265,15 @@ export class AddTahanReport extends Component {
                         </TouchableOpacity>
                         <Dropdown
                             label='Reporting Department'
-                            data={data}
+                            data={this.state.listDepartment}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({ReportingDepartment : text})}
                         />
                         <Dropdown
                             label='Reporting Section'
-                            data={data}
+                            data={this.state.listSection}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({ReportingSection : text})}
                         />
                         <TouchableOpacity 
                             onPress={() => this.props.navigation.navigate('Location', {
@@ -284,7 +302,9 @@ export class AddTahanReport extends Component {
                         </TouchableOpacity>
                         <Dropdown
                             label='Responsible Department'
-                            data={data}
+                            data={this.state.listDepartment}
+                            valueExtractor={({ Name }) => Name}
+                            onChangeText={(text) => this.setState({ResponsibleDepartment : text})}
                         />
                     </View>
                     <View style={{height: 50, padding: 10, backgroundColor: '#ecf0f1', justifyContent: 'center'}}>

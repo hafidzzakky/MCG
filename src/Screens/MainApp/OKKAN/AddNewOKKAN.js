@@ -51,14 +51,33 @@ export class AddNewOKKAN extends Component {
             EquipmentVehicleParked: 3,
             EquipmentUsedinSafeCondition: 3,
             PreStartCheckCondictedCorrectly: 3,
-            UseSuitableTools: 3,                
+            UseSuitableTools: 3,         
+            listDepartment: [],
+            listSection: [],
+            DepartmentObserved: '',
+            Section: '',
+            ObservingDepartment: '',
+            Shift: '' 
         };
     }
 
     async componentDidMount(){
         try{
             await AsyncStorage.removeItem('isEdit');
-            return true;
+            const value = await AsyncStorage.getItem('ListCompany');
+            const Department = await AsyncStorage.getItem('ListDepartment');
+            const Section = await AsyncStorage.getItem('ListSection');
+            if(value !== null || Department !== null || Section !== null) {
+                let data = JSON.parse(value);
+                let listDepartment = JSON.parse(Department);
+                let listSection = JSON.parse(Section);
+                console.log('ddata : ', JSON.parse(value));
+                this.setState({
+                    ListCompany: data,
+                    listDepartment: listDepartment,
+                    listSection: listSection
+                })
+            }
         }catch(exception){
             return false;
         }
@@ -271,12 +290,10 @@ export class AddNewOKKAN extends Component {
         const { navigation } = this.props;
         const page = navigation.getParam('page', 'Page not found');
         let data = [{
-            value: 'PT. Bumi Suksesindo 1',
+            value: 'Day',
           }, {
-            value: 'PT. Bumi Suksesindo 2',
-          }, {
-            value: 'PT. Bumi Suksesindo 3',
-        }];
+            value: 'Night',
+          }];
         
         return (
             <HeaderSub title={page} navigation={this.props.navigation}>
@@ -296,7 +313,9 @@ export class AddNewOKKAN extends Component {
                 <View style={styles.containerForm}>
                     <Dropdown
                         label='Department Observed'
-                        data={data}
+                        data={this.state.listDepartment}
+                        valueExtractor={({ Name }) => Name}
+                        onChangeText={(text) => this.setState({DepartmentObserved : text})}
                     />
                 </View>
                 <View style={styles.containerHeaderItem}>
@@ -352,7 +371,9 @@ export class AddNewOKKAN extends Component {
                 <View style={styles.containerForm}>
                     <Dropdown
                         label='Section'
-                        data={data}
+                        data={this.state.listSection}
+                        valueExtractor={({ Name }) => Name}
+                        onChangeText={(text) => this.setState({listSection : text})}
                     />
                 </View>
                 <View style={styles.containerHeaderItem}>
@@ -383,7 +404,9 @@ export class AddNewOKKAN extends Component {
                 <View style={styles.containerForm}>
                     <Dropdown
                         label='Observing Department'
-                        data={data}
+                        data={this.state.listDepartment}
+                        valueExtractor={({ Name }) => Name}
+                        onChangeText={(text) => this.setState({ObservingDepartment : text})}
                     />
                 </View>
                 <View style={styles.containerHeaderItem}>
@@ -441,8 +464,9 @@ export class AddNewOKKAN extends Component {
                 </View>
                 <View style={styles.containerForm}>
                     <Dropdown
-                        label='Section'
+                        label='Shift'
                         data={data}
+                        onChangeText={(text) => this.setState({Shift : text})}
                     />
                 </View>
                 <View style={styles.containerHeaderItem}>

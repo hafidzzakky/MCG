@@ -15,7 +15,9 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import ImageView from 'react-native-image-view';
 import moment from 'moment';
+import HazardPriority from '../../../Assets/image/hazard_priority_level.png';
 export class AddCorrectionAction extends Component {
     constructor(props){
         super(props);
@@ -27,6 +29,7 @@ export class AddCorrectionAction extends Component {
             idEdit: '',
             EditAssignTo: [],
             editChosenDateCorrectiveAction: '',
+            ModalRiskVisible: false
         };
     }
 
@@ -42,6 +45,10 @@ export class AddCorrectionAction extends Component {
           } catch(e) {
             console.log(e)
           }
+    }
+
+    viewImageRisk = (visible) => {
+        this.setState({ModalRiskVisible: visible})
     }
 
     getDataReportedBy = async () => {
@@ -181,6 +188,14 @@ export class AddCorrectionAction extends Component {
             value: 'PT. Bumi Suksesindo',
         }];
 
+        const imageHazardPriority = [
+            {
+                source: HazardPriority,
+                width: 991,
+                height: 345,
+            }
+        ];
+
         return (
             <Container>
                 <View style={styles.viewStyle}>
@@ -188,6 +203,9 @@ export class AddCorrectionAction extends Component {
                         <Icon style={{fontSize: 20, color: '#63666A'}} name='arrow-back' />
                     </Button>
                     <Text style={styles.textStyle}>{page}</Text>
+                    <TouchableOpacity onPress={() => this.viewImageRisk(!this.state.ModalRiskVisible)} style={{position: 'absolute', right: 10, top: 10, marginTop: 5}}>
+                        <Icons name='help-circle' style={{marginTop: 0}} size={20} color='#B3A369' />
+                    </TouchableOpacity>
                 </View>
                 <Content>
                     <View style={{padding: 10}}>
@@ -207,10 +225,7 @@ export class AddCorrectionAction extends Component {
                         <Dropdown
                             label='Priority Category'
                             data={data}
-                        />
-                        <Dropdown
-                            label='Priority'
-                            data={data}
+                            style={{width: '80%'}}
                         />
                         <TouchableOpacity onPress={() => this.showDatePicker()} style={{flexDirection: 'row', alignItems: 'center', borderBottomColor: '#d3d3d3', borderBottomWidth: 0.7, marginTop: 30, marginBottom: 10}}>
                             <Text style={{fontSize: 16, color: '#939393'}}>Due Date </Text>
@@ -229,6 +244,12 @@ export class AddCorrectionAction extends Component {
                     onConfirm={this.handleDatePickedCorrectiveAction}
                     onCancel={this.hideDatePicker}
                     mode={'date'}
+                />
+                {/* Hazard Priority */}
+                <ImageView
+                    images={imageHazardPriority}
+                    imageIndex={0}
+                    isVisible={this.state.ModalRiskVisible}
                 />
                 <TouchableOpacity 
                     onPress={this.state.isEdit ? () => this._storeEditData() : () => this._storeData()}

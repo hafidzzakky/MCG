@@ -80,7 +80,7 @@ export class TahanReport extends Component {
                             <Text style={styles.dateList}>01 Januari 2019</Text>
                             <Text style={[styles.titleList, {fontSize: 12, marginTop: 5}]}>Actual Risk Level</Text>
                             <View style={styles.containerStatus}>
-                                <Text style={styles.statusList}>Danger</Text>
+                                <Text style={styles.statusList}>Sent</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -221,7 +221,7 @@ const styles = {
     },
     containerStatus:{
         borderRadius:20, 
-        backgroundColor: '#e74c3c', 
+        backgroundColor: '#16a085', 
         padding: 5, 
         width: 60, 
         marginTop: 5, 
