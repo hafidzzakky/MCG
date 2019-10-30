@@ -45,7 +45,7 @@ export class Login extends Component {
                     </View>
                 </View>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('IntroScreen')} style={{alignSelf: 'center', marginTop: 20}}>
-                    <Text style={{fontSize: 12, color: '#63666A'}}>Butuh Bantuan?</Text>
+                    <Text style={{fontSize: 12, color: '#2980b9'}}>Butuh Bantuan?</Text>
                 </TouchableOpacity>
                 {/* <View style={{flex: 1, justifyContent: 'flex-end', marginBottom: 30}}>
                     <Text style={{alignSelf: 'center', color: '#4a423e'}}>v.0.1</Text>
