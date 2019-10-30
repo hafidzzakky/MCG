@@ -11,13 +11,14 @@ export class Intro extends Component {
             <Text>coba</Text>
             <Swiper style={styles.wrapper} showsButtons={true} showsPagination={true}>
                 <View style={styles.slide1}>
-                <Text style={styles.text}>Hello Swiper</Text>
+                <Text style={styles.text}>Merdeka Safety</Text>
                 </View>
                 <View style={styles.slide2}>
-                <Text style={styles.text}>Beautiful</Text>
+                <Text style={styles.text}>Features</Text>
+                <Text style={styles.text}>Monitoring Safety report from mining industries</Text>
                 </View>
                 <View style={styles.slide3}>
-                <Text style={styles.text}>And simple</Text>
+                <Text style={styles.text}>Easy To Use</Text>
                 </View>
             </Swiper>
             </View>
