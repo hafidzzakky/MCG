@@ -373,7 +373,7 @@ const styles = {
         elevation: 4
       },
       buttonLogout: {
-        backgroundColor:'#B3A369', 
+        backgroundColor:'#2980b9', 
         padding: 5,width: 50, 
         height: 50, 
         borderRadius: 50, 
