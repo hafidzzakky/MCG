@@ -51,12 +51,12 @@ export class Login extends Component {
 
     renderButton = () => {
         if(this.props.loading){
-            return  <Spinner size="small" color='#99552B' />
+            return  <Spinner size="small" color='#f1c40f' />
         }
         return(
             <TouchableOpacity 
                 onPress={this.props.handleSubmit(this.LoginUser)}
-                style={{padding: 10, backgroundColor: '#99552B', borderRadius: 25, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 20
+                style={{padding: 10, backgroundColor: '#f1c40f', borderRadius: 25, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 20
             }}>
                 <Text style={{color: '#fff', fontWeight: 'bold', alignSelf:'center', marginTop: 5, marginBottom: 5}}>Login</Text>
             </TouchableOpacity>
