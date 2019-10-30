@@ -11,21 +11,6 @@ export class Menu1 extends Component {
         const page = navigation.getParam('page', 'Page not found');
         return (
             <HeaderSub title={page} navigation={this.props.navigation}>
-                {/* <Content style={{padding: 0}}>
-                    <Form style={{padding: 10, backgroundColor: '#fff', marginLeft: -10, marginTop: 10}}>
-                        <Item floatingLabel style={{ marginTop: -10}}>
-                        <Label style={{fontSize: 13}}>Nama</Label>
-                        <Input style={{fontSize: 13}} />
-                        </Item>
-                        <Item floatingLabel>
-                        <Label style={{fontSize: 13}}>Keterangan</Label>
-                        <Input style={{fontSize: 13}}/>
-                        </Item>
-                    </Form>
-                </Content>
-                <TouchableOpacity style={{position: 'absolute',width: '100%', bottom: 0, flex: 1, padding: 10, backgroundColor: '#42436A'}}>
-                    <Text style={{color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>Kirim</Text>
-                </TouchableOpacity> */}
                 <Content>
                     <TouchableOpacity style={{borderRadius: 0, padding: 10, borderBottomColor: '#dbdbdb', borderBottomWidth: 1, marginTop: 10}}>
                         <Text style={{fontSize: 15, fontWeight: 'bold'}}>Incident Title</Text>
@@ -38,9 +23,6 @@ export class Menu1 extends Component {
                                 <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>Status</Text>
                             </View>
                         </View>
-                        {/* <View style={{position: 'absolute',borderRadius:20, bottom: 10, right: 10, backgroundColor: '#e74c3c', padding: 5, width: 60}}>
-                            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 11, alignSelf: 'center', textAlign: 'center'}}>Status</Text>
-                        </View> */}
                     </TouchableOpacity>
                     
                 </Content>
